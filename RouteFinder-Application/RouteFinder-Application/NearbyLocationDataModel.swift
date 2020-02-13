@@ -28,7 +28,7 @@ class NearbyLocation {
 class NearbyLocationDataModel {
 
     //Declare your model variables here
-    var nearbyLocationData : [NearbyLocation] = []
+    var nearbyLocationDataList : [NearbyLocation] = []
 
 }
 

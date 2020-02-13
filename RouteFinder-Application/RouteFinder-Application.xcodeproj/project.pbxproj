@@ -15,6 +15,7 @@
 		80511B3C23F4A618005DA155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3B23F4A618005DA155 /* Assets.xcassets */; };
 		80511B3F23F4A618005DA155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */; };
 		80511B4723F5CD62005DA155 /* NearbyLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */; };
+		80511B4B23F60451005DA155 /* LocationDirectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		80511B3E23F4A618005DA155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80511B4023F4A618005DA155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyLocationDataModel.swift; sourceTree = "<group>"; };
+		80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDirectionDataModel.swift; sourceTree = "<group>"; };
 		CFF841534F6C154DF8E17C6A /* Pods-RouteFinder-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.debug.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,7 @@
 				80511B3B23F4A618005DA155 /* Assets.xcassets */,
 				80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */,
 				80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */,
+				80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */,
 				80511B4023F4A618005DA155 /* Info.plist */,
 			);
 			path = "RouteFinder-Application";
@@ -209,6 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80511B4B23F60451005DA155 /* LocationDirectionDataModel.swift in Sources */,
 				80511B3723F4A616005DA155 /* ViewController.swift in Sources */,
 				80511B4723F5CD62005DA155 /* NearbyLocationDataModel.swift in Sources */,
 				80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */,

@@ -17,11 +17,14 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     let nearbyLocationDataModel = NearbyLocationDataModel()
+    let locationDirectionDataModel = LocationDirectionDataModel()
     
-    let GOOGLE_MAP_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     
+    let NEARBYSEARCH_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+    let DIRECTION_API_URL = "https://maps.googleapis.com/maps/api/directions/json?"
     let GOOGLE_APP_ID = "AIzaSyDS8N3_J0XJ4OwKElqCRwAqW1-AYB41glA"
     let MAX_RADIUS = "10000"
+    let TRAVEL_MODE = "walking"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,33 +37,53 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     }
     //MARK: - Networking
     /***************************************************************/
-    
-    //Write the getWeatherData method here:
-    func getNearbyLocationData(url : String, parameters : [String: String]){
-        Alamofire.request(url, method : .get, parameters: parameters).responseJSON{
+    func getNearbyLocationData(nearbyUrl : String,directionUrl : String, parameters : [String: String]){
+        Alamofire.request(nearbyUrl, method : .get, parameters: parameters).responseJSON{
             response in
             if response.result.isSuccess{
-                print("Success! Got the nearby Location data")
+                print("Success! Got Nearby Location Data")
             
                 let nearbyLocationJSON : JSON = JSON(response.result.value!)
                 
                 self.updateNearbyLocationData(json: nearbyLocationJSON)
-            
+                self.getNearbyDirectionData(url: directionUrl, originParameters: parameters, nearbyLocationDataModel : self.nearbyLocationDataModel)
+
             }
             else {
                 print("Error \(response.result.error)")
                // self.cityLabel.text = "Connection Issues"
             }
         }
+        
     }
+    
+    func getNearbyDirectionData(url : String, originParameters : [String: String], nearbyLocationDataModel : NearbyLocationDataModel){
+        for destinationInfo in nearbyLocationDataModel.nearbyLocationDataList{
+            let params : [String : String] = ["origin" : "\(String(originParameters["location"]!))","destination" : "\(destinationInfo.latitude),\(destinationInfo.longitude)","mode" : TRAVEL_MODE,"key" : GOOGLE_APP_ID]
+            
+            Alamofire.request(url, method : .get, parameters: params).responseJSON{
+                       response in
+                       if response.result.isSuccess{
+                           print("Success! Got Nearby Direction Location Data")
+                       
+                           let nearbyLocationDirectionJSON : JSON = JSON(response.result.value!)
+                           
+                        self.updateNearbyLocationDirectionData(json: nearbyLocationDirectionJSON,destinationInfo : destinationInfo)
+                       
+                           print(nearbyLocationDirectionJSON)
+                       }
+                       else {
+                           print("Error \(response.result.error)")
+                          // self.cityLabel.text = "Connection Issues"
+                       }
+                   }
+        }
+   }
     
      //MARK: - JSON Parsing
      /***************************************************************/
-    
-     
-     //Write the updateWeatherData method here:
-     func updateNearbyLocationData(json : JSON){
-         
+     //Write the updateNearbyLocationData method here:
+    func updateNearbyLocationData(json : JSON){
 
         let tempResults = json["results"].array
         
@@ -71,7 +94,17 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             let tempLongitude = tempResult["geometry"]["location"]["lng"].doubleValue
             let tempPlaceID = tempResult["place_ID"].stringValue
             
-            nearbyLocationDataModel.nearbyLocationData.append(NearbyLocation(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID))
+            nearbyLocationDataModel.nearbyLocationDataList.append(NearbyLocation(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID))
+        }
+        
+    }
+    
+    
+    func updateNearbyLocationDirectionData(json : JSON,destinationInfo : NearbyLocation){
+        if let tempDistance = json["routes"][0]["legs"][0]["distance"]["value"].int {
+            let tempDuration = json["routes"][0]["legs"][0]["duration"]["value"].intValue
+        
+            locationDirectionDataModel.locationDirectionDataList.append(nearbyLocationDirection(name : destinationInfo.name, latitude : destinationInfo.latitude, longitude : destinationInfo.longitude, distance : tempDistance, duration : tempDuration))
         }
     }
 
@@ -94,9 +127,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             
-            let params : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : MAX_RADIUS ,"type" : "park", "key" : GOOGLE_APP_ID]
+            let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : MAX_RADIUS ,"type" : "park", "key" : GOOGLE_APP_ID]
             
-            getNearbyLocationData(url: GOOGLE_MAP_API_URL, parameters: params)
+            getNearbyLocationData(nearbyUrl: NEARBYSEARCH_API_URL,directionUrl : DIRECTION_API_URL, parameters: originParams)
+            
         }
     }
     
