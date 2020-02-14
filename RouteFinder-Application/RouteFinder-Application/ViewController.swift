@@ -11,30 +11,52 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-class ViewController: UIViewController,CLLocationManagerDelegate {
-
-    @IBOutlet weak var Button: UIButton!
-    
+class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource {
     let locationManager = CLLocationManager()
+    
     let nearbyLocationDataModel = NearbyLocationDataModel()
     let locationDirectionDataModel = LocationDirectionDataModel()
-    
-    
     let NEARBYSEARCH_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     let DIRECTION_API_URL = "https://maps.googleapis.com/maps/api/directions/json?"
     let GOOGLE_APP_ID = "AIzaSyDS8N3_J0XJ4OwKElqCRwAqW1-AYB41glA"
     let MAX_RADIUS = "10000"
     let TRAVEL_MODE = "walking"
+    var radius : String = "10000"
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var desiredRadius: UITextField!
+    
+    @IBAction func ButtonPressed(_ sender: UIButton) {
+        nearbyLocationDataModel.nearbyLocationDataList.removeAll()
+        locationDirectionDataModel.locationDirectionDataList.removeAll()
+        
+        locationManager.delegate=self
+        locationManager.startUpdatingLocation()
+        
+        tableView.reloadData()
+    }
+    
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        desiredRadius.text = MAX_RADIUS
+        
         // Do any additional setup after loading the view.
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
         locationManager.requestWhenInUseAuthorization()
         
+        if(CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways){
+
         locationManager.startUpdatingLocation() //asynchronous Method - work in background
+        }
+
     }
+
     //MARK: - Networking
     /***************************************************************/
     func getNearbyLocationData(nearbyUrl : String,directionUrl : String, parameters : [String: String]){
@@ -47,7 +69,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
                 
                 self.updateNearbyLocationData(json: nearbyLocationJSON)
                 self.getNearbyDirectionData(url: directionUrl, originParameters: parameters, nearbyLocationDataModel : self.nearbyLocationDataModel)
-
+                //self.nearbyFound.text = "There are \(self.nearbyLocationDataModel.nearbyLocationDataList.count) locations found"
             }
             else {
                 print("Error \(response.result.error)")
@@ -70,7 +92,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
                            
                         self.updateNearbyLocationDirectionData(json: nearbyLocationDirectionJSON,destinationInfo : destinationInfo)
                        
-                           print(nearbyLocationDirectionJSON)
+                        self.tableView.reloadData()
                        }
                        else {
                            print("Error \(response.result.error)")
@@ -94,11 +116,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             let tempLongitude = tempResult["geometry"]["location"]["lng"].doubleValue
             let tempPlaceID = tempResult["place_ID"].stringValue
             
-            nearbyLocationDataModel.nearbyLocationDataList.append(NearbyLocation(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID))
+        nearbyLocationDataModel.nearbyLocationDataList.append(NearbyLocation(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID))
         }
         
     }
-    
     
     func updateNearbyLocationDirectionData(json : JSON,destinationInfo : NearbyLocation){
         if let tempDistance = json["routes"][0]["legs"][0]["distance"]["value"].int {
@@ -111,7 +132,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     //MARK: - Location Manager Delegate Methods
     /***************************************************************/
-    
     
     //Write the didUpdateLocations method here:
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -127,10 +147,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
             
-            let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : MAX_RADIUS ,"type" : "park", "key" : GOOGLE_APP_ID]
+            radius = desiredRadius.text!
             
+            let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : radius ,"type" : "park", "key" : GOOGLE_APP_ID]
+            
+
             getNearbyLocationData(nearbyUrl: NEARBYSEARCH_API_URL,directionUrl : DIRECTION_API_URL, parameters: originParams)
-            
         }
     }
     
@@ -141,6 +163,27 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         
         //cityLabel.text = "Location Unavailable"
     }
+    
+    //MARK: - TableView
+    /***************************************************************/
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        locationManager.startUpdatingLocation()
+        
+        return locationDirectionDataModel.locationDirectionDataList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        locationManager.startUpdatingLocation()
+
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+       
+        let distanceInKilometers = String(format :"%.1f",Double(locationDirectionDataModel.locationDirectionDataList[indexPath.row].distance)/1000.000)
+    cell.textLabel?.text="\(locationDirectionDataModel.locationDirectionDataList[indexPath.row].name): \(distanceInKilometers)km \(locationDirectionDataModel.locationDirectionDataList[indexPath.row].duration)mins"
+        
+        return cell
+    }
+
+    
 
 }
 
