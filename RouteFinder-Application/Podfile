@@ -3,10 +3,10 @@
 
 target 'RouteFinder-Application' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+  #use_frameworks!
 
   # Pods for RouteFinder-Application
-  pod 'SwiftyJSON'
-  pod 'Alamofire'
-  pod 'SVProgressHUD'
+    pod 'Alamofire'
+    pod 'SwiftyJSON'
+    pod 'SVProgressHUD'
 end

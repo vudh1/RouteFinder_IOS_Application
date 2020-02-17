@@ -9,7 +9,7 @@
 
 import UIKit
 
-class NearbyLocation {
+class Location {
     var name : String = ""
     var vicinity : String = ""
     var latitude : Double = 0
@@ -25,10 +25,10 @@ class NearbyLocation {
     }
 }
 
-class NearbyLocationDataModel {
+class LocationDataModel {
 
     //Declare your model variables here
-    var nearbyLocationDataList : [NearbyLocation] = []
+    var locationDataList : [Location] = []
 
 }
 
