@@ -7,20 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42146C8FCB2535610178A0C5 /* Pods_RouteFinder_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F5B5AA09BC5486A7E56B78 /* Pods_RouteFinder_Application.framework */; };
+		08D77238CD12292FB9693C35 /* libPods-RouteFinder-Application.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */; };
 		80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3223F4A616005DA155 /* AppDelegate.swift */; };
 		80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3423F4A616005DA155 /* SceneDelegate.swift */; };
 		80511B3723F4A616005DA155 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3623F4A616005DA155 /* ViewController.swift */; };
 		80511B3A23F4A616005DA155 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3823F4A616005DA155 /* Main.storyboard */; };
 		80511B3C23F4A618005DA155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3B23F4A618005DA155 /* Assets.xcassets */; };
 		80511B3F23F4A618005DA155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */; };
-		80511B4723F5CD62005DA155 /* NearbyLocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */; };
-		80511B4B23F60451005DA155 /* LocationDirectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */; };
+		80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4623F5CD62005DA155 /* LocationDataModel.swift */; };
+		80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionModel.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		80CA3C7C23FA3510007D07D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		143C0521003F446973732E81 /* Pods-RouteFinder-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.release.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.release.xcconfig"; sourceTree = "<group>"; };
-		52F5B5AA09BC5486A7E56B78 /* Pods_RouteFinder_Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RouteFinder_Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.debug.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.debug.xcconfig"; sourceTree = "<group>"; };
 		80511B2F23F4A616005DA155 /* RouteFinder-Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RouteFinder-Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80511B3223F4A616005DA155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80511B3423F4A616005DA155 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -29,9 +41,13 @@
 		80511B3B23F4A618005DA155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		80511B3E23F4A618005DA155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80511B4023F4A618005DA155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyLocationDataModel.swift; sourceTree = "<group>"; };
-		80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDirectionDataModel.swift; sourceTree = "<group>"; };
-		CFF841534F6C154DF8E17C6A /* Pods-RouteFinder-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.debug.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.debug.xcconfig"; sourceTree = "<group>"; };
+		80511B4623F5CD62005DA155 /* LocationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataModel.swift; sourceTree = "<group>"; };
+		80511B4A23F60451005DA155 /* LocationDirectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDirectionModel.swift; sourceTree = "<group>"; };
+		80CA3C7223FA343E007D07D1 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteFinder-Application.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.release.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42146C8FCB2535610178A0C5 /* Pods_RouteFinder_Application.framework in Frameworks */,
+				08D77238CD12292FB9693C35 /* libPods-RouteFinder-Application.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +68,7 @@
 				80511B3123F4A616005DA155 /* RouteFinder-Application */,
 				80511B3023F4A616005DA155 /* Products */,
 				961B3144E3CD415C72F64077 /* Pods */,
-				F4CBB1429497E6DA6BBBCCE9 /* Frameworks */,
+				80CA3C7123FA343E007D07D1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,28 +89,31 @@
 				80511B3823F4A616005DA155 /* Main.storyboard */,
 				80511B3B23F4A618005DA155 /* Assets.xcassets */,
 				80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */,
-				80511B4623F5CD62005DA155 /* NearbyLocationDataModel.swift */,
-				80511B4A23F60451005DA155 /* LocationDirectionDataModel.swift */,
+				80511B4623F5CD62005DA155 /* LocationDataModel.swift */,
+				80511B4A23F60451005DA155 /* LocationDirectionModel.swift */,
 				80511B4023F4A618005DA155 /* Info.plist */,
 			);
 			path = "RouteFinder-Application";
 			sourceTree = "<group>";
 		};
+		80CA3C7123FA343E007D07D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80CA3C7223FA343E007D07D1 /* Alamofire.framework */,
+				80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */,
+				80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */,
+				E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		961B3144E3CD415C72F64077 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CFF841534F6C154DF8E17C6A /* Pods-RouteFinder-Application.debug.xcconfig */,
-				143C0521003F446973732E81 /* Pods-RouteFinder-Application.release.xcconfig */,
+				39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */,
+				E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		F4CBB1429497E6DA6BBBCCE9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				52F5B5AA09BC5486A7E56B78 /* Pods_RouteFinder_Application.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,11 +123,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80511B4323F4A618005DA155 /* Build configuration list for PBXNativeTarget "RouteFinder-Application" */;
 			buildPhases = (
-				AB68EEECC44A8011EA460358 /* [CP] Check Pods Manifest.lock */,
+				DD84B9D8C114EBA8FA16F03D /* [CP] Check Pods Manifest.lock */,
 				80511B2B23F4A616005DA155 /* Sources */,
 				80511B2C23F4A616005DA155 /* Frameworks */,
 				80511B2D23F4A616005DA155 /* Resources */,
-				8AC665A70684D27133E1EDF0 /* [CP] Embed Pods Frameworks */,
+				80CA3C7C23FA3510007D07D1 /* Embed Frameworks */,
+				CD4295E46DD767D574B75B85 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -166,24 +186,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8AC665A70684D27133E1EDF0 /* [CP] Embed Pods Frameworks */ = {
+		CD4295E46DD767D574B75B85 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB68EEECC44A8011EA460358 /* [CP] Check Pods Manifest.lock */ = {
+		DD84B9D8C114EBA8FA16F03D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -212,9 +232,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80511B4B23F60451005DA155 /* LocationDirectionDataModel.swift in Sources */,
+				80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */,
 				80511B3723F4A616005DA155 /* ViewController.swift in Sources */,
-				80511B4723F5CD62005DA155 /* NearbyLocationDataModel.swift in Sources */,
+				80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */,
 				80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */,
 				80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */,
 			);
@@ -358,7 +378,7 @@
 		};
 		80511B4423F4A618005DA155 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFF841534F6C154DF8E17C6A /* Pods-RouteFinder-Application.debug.xcconfig */;
+			baseConfigurationReference = 39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -371,13 +391,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		80511B4523F4A618005DA155 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 143C0521003F446973732E81 /* Pods-RouteFinder-Application.release.xcconfig */;
+			baseConfigurationReference = E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -390,7 +410,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

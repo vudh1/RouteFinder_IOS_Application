@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.9.1)
+  - Alamofire (5.0.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (5.0.0)
 
@@ -15,10 +15,10 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Alamofire: 58ff2bfb8daaacaa233d5c36e37b10a5248f59b1
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 80580dca97d281cf5c1c1113c096cc87627fa2be
+PODFILE CHECKSUM: c3879674a4d6a79abc89d537ff6896b55f194aff
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0.beta.3

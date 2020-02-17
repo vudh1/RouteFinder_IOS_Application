@@ -28,7 +28,7 @@ class LocationDirection {
 class LocationDirectionModel {
 
     //Declare your model variables here
-    var LocationDirectionList : [LocationDirection] = []
+    var locationDirectionList : [LocationDirection] = []
 
 }
 
