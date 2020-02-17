@@ -8,7 +8,7 @@
 
 import UIKit
 
-class nearbyLocationDirection {
+class LocationDirection {
     var name : String = ""
     var latitude : Double = 0
     var longitude : Double = 0
@@ -25,10 +25,10 @@ class nearbyLocationDirection {
     }
 }
 
-class LocationDirectionDataModel {
+class LocationDirectionModel {
 
     //Declare your model variables here
-    var locationDirectionDataList : [nearbyLocationDirection] = []
+    var LocationDirectionList : [LocationDirection] = []
 
 }
 
