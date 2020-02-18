@@ -7,18 +7,36 @@
 //
 
 import UIKit
+import MapKit
+
+protocol LocationCellDelegate{
+    func didTapAppleMap(url : String)
+}
 
 class LocationCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    var delegate : LocationCellDelegate?
+    
+    @IBOutlet weak var LocationLabel: UILabel!
+    @IBOutlet weak var DistanceLabel: UILabel!
+    @IBOutlet weak var DurationLabel: UILabel!
+
+    func setLocationCellValues(parameters : [String:String]){
+        LocationLabel.text = parameters["locationName"]
+        DistanceLabel.text = parameters["locationDistance"]
+        DurationLabel.text = parameters["locationDuration"]
     }
+    
+    @IBAction func AppleMap(_ sender: UIButton) {
+        let locationName = LocationLabel.text!.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
+                
+        let appleLink = "http://maps.apple.com/?daddr=\(locationName)&dirflg=w"
+        
+        delegate?.didTapAppleMap(url: appleLink)
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        if let url = URL(string: appleLink) {
+            UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }
     }
-
+    
 }

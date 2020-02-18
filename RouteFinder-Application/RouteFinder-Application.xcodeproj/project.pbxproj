@@ -16,6 +16,7 @@
 		80511B3F23F4A618005DA155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */; };
 		80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4623F5CD62005DA155 /* LocationDataModel.swift */; };
 		80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionModel.swift */; };
+		80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9723FA7723007D07D1 /* LocationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,7 @@
 		80CA3C7223FA343E007D07D1 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80CA3C9723FA7723007D07D1 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteFinder-Application.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.release.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +88,7 @@
 				80511B3223F4A616005DA155 /* AppDelegate.swift */,
 				80511B3423F4A616005DA155 /* SceneDelegate.swift */,
 				80511B3623F4A616005DA155 /* ViewController.swift */,
+				80CA3C9723FA7723007D07D1 /* LocationCell.swift */,
 				80511B3823F4A616005DA155 /* Main.storyboard */,
 				80511B3B23F4A618005DA155 /* Assets.xcassets */,
 				80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */,
@@ -232,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */,
 				80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */,
 				80511B3723F4A616005DA155 /* ViewController.swift in Sources */,
 				80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */,
