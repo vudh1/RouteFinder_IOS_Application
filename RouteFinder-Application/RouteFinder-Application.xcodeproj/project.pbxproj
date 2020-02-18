@@ -34,7 +34,7 @@
 
 /* Begin PBXFileReference section */
 		39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.debug.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.debug.xcconfig"; sourceTree = "<group>"; };
-		80511B2F23F4A616005DA155 /* RouteFinder-Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RouteFinder-Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		80511B2F23F4A616005DA155 /* RouteFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80511B3223F4A616005DA155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80511B3423F4A616005DA155 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		80511B3623F4A616005DA155 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 		80511B3023F4A616005DA155 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80511B2F23F4A616005DA155 /* RouteFinder-Application.app */,
+				80511B2F23F4A616005DA155 /* RouteFinder.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,7 +139,7 @@
 			);
 			name = "RouteFinder-Application";
 			productName = "RouteFinder-Application";
-			productReference = 80511B2F23F4A616005DA155 /* RouteFinder-Application.app */;
+			productReference = 80511B2F23F4A616005DA155 /* RouteFinder.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -393,7 +393,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RouteFinder;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -412,7 +412,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RouteFinder;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

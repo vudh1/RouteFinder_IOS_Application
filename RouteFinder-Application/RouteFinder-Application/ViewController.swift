@@ -58,6 +58,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
+
     
 
     override func viewDidLoad() {
@@ -254,7 +255,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
 /***************************************************************/
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return range.location < 6
+        return range.location < 5
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
