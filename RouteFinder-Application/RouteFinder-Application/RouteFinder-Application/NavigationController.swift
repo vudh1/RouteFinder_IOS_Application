@@ -11,7 +11,9 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate, LocationCellDelegate {
+class NavigationController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate, LocationCellDelegate {
+    
+    var desiredDistanceFromHealthController : String?
     
     //model variables
     let locationManager = CLLocationManager()
@@ -27,7 +29,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
     var MAX_RADIUS = "10000"
     let SUGGEST_DISTANCE = "2500"
     let TRAVEL_MODE = "walking"
-    let MAX_CELL = 25
+    let MAX_CELL = 10
 
     let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
     
@@ -47,8 +49,14 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
         getLocationDataCount = 0
         updateLocationDirectionDataCount = 0
         
-        travelGoalDistance = Int(goalDistance.text!) ?? 0
-        MAX_RADIUS = String(travelGoalDistance+2000)
+        if Int(desiredDistanceFromHealthController!)! > 0{
+            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+        }
+        else {
+            travelGoalDistance = 1000
+        }
+        
+        MAX_RADIUS = String(travelGoalDistance+1000)
         
         locationDataModel.locationDataList.removeAll()
         locationDirectionModel.locationDirectionList.removeAll()
@@ -59,17 +67,17 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
         locationManager.startUpdatingLocation()
     }
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        goalDistance.delegate = self
-        goalDistance.text = SUGGEST_DISTANCE
+        if Int(desiredDistanceFromHealthController!)! > 0{
+            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+        }
+        else {
+            travelGoalDistance = 1000
+        }
         
-        travelGoalDistance = Int(goalDistance.text!) ?? 0
-
-        MAX_RADIUS = String(travelGoalDistance+2000)
+        MAX_RADIUS = String(travelGoalDistance+1000)
 
         // Do any additional setup after loading the view.
         locationManager.delegate = self
@@ -77,6 +85,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
         locationManager.requestWhenInUseAuthorization()
         
         locationManager.startUpdatingLocation() //asynchronous Method - work in background
+    }
+    
+    //MARK: - Segue To Health Controller
+    @IBAction func backPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToHealthController", sender: self)
     }
     
     //MARK: - Location Manager Delegate Methods
@@ -251,17 +264,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UITableViewDele
         return cell
     }
 
-    //MARK: - TextField
-/***************************************************************/
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return range.location < 5
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
     
     //MARK : - LocationCellDelegate
     /***************************************************************/

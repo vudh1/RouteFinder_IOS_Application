@@ -10,13 +10,14 @@
 		08D77238CD12292FB9693C35 /* libPods-RouteFinder-Application.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */; };
 		80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3223F4A616005DA155 /* AppDelegate.swift */; };
 		80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3423F4A616005DA155 /* SceneDelegate.swift */; };
-		80511B3723F4A616005DA155 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3623F4A616005DA155 /* ViewController.swift */; };
+		80511B3723F4A616005DA155 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3623F4A616005DA155 /* NavigationController.swift */; };
 		80511B3A23F4A616005DA155 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3823F4A616005DA155 /* Main.storyboard */; };
 		80511B3C23F4A618005DA155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3B23F4A618005DA155 /* Assets.xcassets */; };
 		80511B3F23F4A618005DA155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */; };
 		80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4623F5CD62005DA155 /* LocationDataModel.swift */; };
 		80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionModel.swift */; };
 		80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9723FA7723007D07D1 /* LocationCell.swift */; };
+		80CA3C9E23FD3437007D07D1 /* HealthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9D23FD3437007D07D1 /* HealthController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,7 +38,7 @@
 		80511B2F23F4A616005DA155 /* RouteFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80511B3223F4A616005DA155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80511B3423F4A616005DA155 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		80511B3623F4A616005DA155 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		80511B3623F4A616005DA155 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		80511B3923F4A616005DA155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		80511B3B23F4A618005DA155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		80511B3E23F4A618005DA155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -48,6 +49,7 @@
 		80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C9723FA7723007D07D1 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		80CA3C9D23FD3437007D07D1 /* HealthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthController.swift; sourceTree = "<group>"; };
 		E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteFinder-Application.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.release.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,9 +87,10 @@
 		80511B3123F4A616005DA155 /* RouteFinder-Application */ = {
 			isa = PBXGroup;
 			children = (
+				80CA3C9D23FD3437007D07D1 /* HealthController.swift */,
 				80511B3223F4A616005DA155 /* AppDelegate.swift */,
 				80511B3423F4A616005DA155 /* SceneDelegate.swift */,
-				80511B3623F4A616005DA155 /* ViewController.swift */,
+				80511B3623F4A616005DA155 /* NavigationController.swift */,
 				80CA3C9723FA7723007D07D1 /* LocationCell.swift */,
 				80511B3823F4A616005DA155 /* Main.storyboard */,
 				80511B3B23F4A618005DA155 /* Assets.xcassets */,
@@ -237,7 +240,8 @@
 			files = (
 				80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */,
 				80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */,
-				80511B3723F4A616005DA155 /* ViewController.swift in Sources */,
+				80CA3C9E23FD3437007D07D1 /* HealthController.swift in Sources */,
+				80511B3723F4A616005DA155 /* NavigationController.swift in Sources */,
 				80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */,
 				80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */,
 				80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */,
