@@ -18,6 +18,7 @@
 		80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B4A23F60451005DA155 /* LocationDirectionModel.swift */; };
 		80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9723FA7723007D07D1 /* LocationCell.swift */; };
 		80CA3C9E23FD3437007D07D1 /* HealthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9D23FD3437007D07D1 /* HealthController.swift */; };
+		80CA3CA123FDD5E0007D07D1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80CA3CA023FDD5E0007D07D1 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +51,8 @@
 		80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C9723FA7723007D07D1 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		80CA3C9D23FD3437007D07D1 /* HealthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthController.swift; sourceTree = "<group>"; };
+		80CA3C9F23FDD5DF007D07D1 /* RouteFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RouteFinder.entitlements; sourceTree = "<group>"; };
+		80CA3CA023FDD5E0007D07D1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		E2AB4E9D4F3F562B83706F5E /* libPods-RouteFinder-Application.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RouteFinder-Application.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RouteFinder-Application.release.xcconfig"; path = "Target Support Files/Pods-RouteFinder-Application/Pods-RouteFinder-Application.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08D77238CD12292FB9693C35 /* libPods-RouteFinder-Application.a in Frameworks */,
+				80CA3CA123FDD5E0007D07D1 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +91,7 @@
 		80511B3123F4A616005DA155 /* RouteFinder-Application */ = {
 			isa = PBXGroup;
 			children = (
+				80CA3C9F23FDD5DF007D07D1 /* RouteFinder.entitlements */,
 				80CA3C9D23FD3437007D07D1 /* HealthController.swift */,
 				80511B3223F4A616005DA155 /* AppDelegate.swift */,
 				80511B3423F4A616005DA155 /* SceneDelegate.swift */,
@@ -105,6 +110,7 @@
 		80CA3C7123FA343E007D07D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80CA3CA023FDD5E0007D07D1 /* HealthKit.framework */,
 				80CA3C7223FA343E007D07D1 /* Alamofire.framework */,
 				80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */,
 				80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */,
@@ -389,6 +395,7 @@
 			baseConfigurationReference = 39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "RouteFinder-Application/RouteFinder.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DCVHXL6UG;
@@ -409,6 +416,7 @@
 			baseConfigurationReference = E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "RouteFinder-Application/RouteFinder.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DCVHXL6UG;
