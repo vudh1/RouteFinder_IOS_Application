@@ -29,7 +29,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     var MAX_RADIUS = "10000"
     let SUGGEST_DISTANCE = "2500"
     let TRAVEL_MODE = "walking"
-    let MAX_CELL = 10
+    let MAX_CELL = 15
 
     let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
     
@@ -41,9 +41,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
 
     //Storyboard Elements
     @IBOutlet weak var tableView: UITableView!
-    
-    @IBOutlet weak var goalDistance: UITextField!
-    
+        
     @IBAction func ButtonPressed(_ sender: UIButton) {
         updateLocationDataCount = 0
         getLocationDataCount = 0
@@ -85,11 +83,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         locationManager.requestWhenInUseAuthorization()
         
         locationManager.startUpdatingLocation() //asynchronous Method - work in background
-    }
-    
-    //MARK: - Segue To Health Controller
-    @IBAction func backPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToHealthController", sender: self)
     }
     
     //MARK: - Location Manager Delegate Methods
@@ -254,8 +247,10 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         let distanceInKilometers = "\(String(format :"%.1f",Double(locationDirectionModel.locationDirectionList[indexPath.row].distance)/1000.000)) km"
 
         let durationInMinutes = "\(String(locationDirectionModel.locationDirectionList[indexPath.row].duration/60)) mins"
+        
+        let locationCoordinate = "\(locationDirectionModel.locationDirectionList[indexPath.row].latitude),\(locationDirectionModel.locationDirectionList[indexPath.row].longitude))"
 
-        let parameters : [String : String] = [ "locationName" : locationName, "locationDistance" : distanceInKilometers, "locationDuration" : durationInMinutes ]
+        let parameters : [String : String] = [ "locationName" : locationName, "locationDistance" : distanceInKilometers, "locationDuration" : durationInMinutes , "locationCoordinate" : locationCoordinate]
         
         cell.setLocationCellValues(parameters: parameters)
         

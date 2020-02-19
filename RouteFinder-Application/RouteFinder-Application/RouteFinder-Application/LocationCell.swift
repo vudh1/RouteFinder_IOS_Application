@@ -16,7 +16,7 @@ protocol LocationCellDelegate{
 class LocationCell: UITableViewCell {
 
     var delegate : LocationCellDelegate?
-    
+    var locationCoordinate : String = ""
     @IBOutlet weak var LocationLabel: UILabel!
     @IBOutlet weak var DistanceLabel: UILabel!
     @IBOutlet weak var DurationLabel: UILabel!
@@ -25,16 +25,18 @@ class LocationCell: UITableViewCell {
         LocationLabel.text = parameters["locationName"]
         DistanceLabel.text = parameters["locationDistance"]
         DurationLabel.text = parameters["locationDuration"]
+        locationCoordinate = parameters["locationCoordinate"]!
     }
     
     @IBAction func AppleMap(_ sender: UIButton) {
-        let locationName = LocationLabel.text!.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
-                
-        let appleLink = "http://maps.apple.com/?daddr=\(locationName)&dirflg=w"
         
-        delegate?.didTapAppleMap(url: appleLink)
+        //let locationName = LocationLabel.text!.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
+                
+        let appleLinkWithCoordinate = "http://maps.apple.com/?daddr=\(locationCoordinate)&dirflg=w"
 
-        if let url = URL(string: appleLink) {
+        delegate?.didTapAppleMap(url: appleLinkWithCoordinate)
+
+        if let url = URL(string: appleLinkWithCoordinate){
             UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
         }
     }

@@ -389,6 +389,7 @@
 			baseConfigurationReference = 39DC9852B44DA5E1DBAD74D4 /* Pods-RouteFinder-Application.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DCVHXL6UG;
 				INFOPLIST_FILE = "RouteFinder-Application/Info.plist";
@@ -408,6 +409,7 @@
 			baseConfigurationReference = E4F902D550A72249960D83D0 /* Pods-RouteFinder-Application.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2DCVHXL6UG;
 				INFOPLIST_FILE = "RouteFinder-Application/Info.plist";
