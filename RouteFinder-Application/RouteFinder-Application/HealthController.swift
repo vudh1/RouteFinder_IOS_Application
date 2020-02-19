@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HealthKit
 
 class HealthController: UIViewController, UITextFieldDelegate {
 
@@ -19,6 +20,12 @@ class HealthController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
+    
+    
+    
+    
+    
+    //MARK :- Searching for locations
     @IBAction func buttonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "goToNavigationController", sender: self)
     }
@@ -44,9 +51,10 @@ class HealthController: UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if  range.location >= 5{
-            return false
+            return false //limit only 5 digits can be entered
         }
         
+        //limit only numeric letters can be entered
         let compSepByCharInSet = string.components(separatedBy: NSCharacterSet(charactersIn:"0123456789").inverted)
         let numberFiltered = compSepByCharInSet.joined(separator: "")
         
@@ -59,7 +67,6 @@ class HealthController: UIViewController, UITextFieldDelegate {
     }
     
     
-    @IBAction func unwindToHealthController(_sender : UIStoryboardSegue){
-        
-    }
+    //MARK: - Unwind Segue
+    @IBAction func unwindToHealthController(_sender : UIStoryboardSegue){}
 }

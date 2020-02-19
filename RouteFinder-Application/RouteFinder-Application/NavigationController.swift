@@ -34,7 +34,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
     
     var travelGoalDistance = 0
-    
     var getLocationDataCount = 0
     var updateLocationDataCount = 0
     var updateLocationDirectionDataCount = 0
@@ -42,6 +41,27 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     //Storyboard Elements
     @IBOutlet weak var tableView: UITableView!
         
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if Int(desiredDistanceFromHealthController!)! > 0{
+            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+        }
+        else {
+            travelGoalDistance = 1000
+        }
+        
+        MAX_RADIUS = String(travelGoalDistance+1000)
+
+        // Do any additional setup after loading the view.
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.startUpdatingLocation() //asynchronous Method - work in background
+    }
+    
+    //Refresh locations
     @IBAction func ButtonPressed(_ sender: UIButton) {
         updateLocationDataCount = 0
         getLocationDataCount = 0
@@ -65,25 +85,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         locationManager.startUpdatingLocation()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if Int(desiredDistanceFromHealthController!)! > 0{
-            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
-        }
-        else {
-            travelGoalDistance = 1000
-        }
-        
-        MAX_RADIUS = String(travelGoalDistance+1000)
-
-        // Do any additional setup after loading the view.
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        
-        locationManager.startUpdatingLocation() //asynchronous Method - work in background
-    }
     
     //MARK: - Location Manager Delegate Methods
     /***************************************************************/
@@ -174,12 +175,10 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                     
                 case .failure(let error):
                     print("Error \(error)")
-
                 }
             }
-
         }
-    
+        
         print("DoneGetDirectionData")
    }
     
@@ -189,7 +188,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
      //Write the updateLocationData method here:
     func updateLocationData(json : JSON, completion : () -> Void){
         print("UpdateLocationData")
-        
         
         let tempResults = json["results"].array
         
@@ -207,8 +205,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         
         completion()
     }
-    
-    
     
     func updateLocationDirectionData(json : JSON,destinationInfo : Location, completion : () -> Void ){
         print("UpdateLocationDirectionData")
@@ -262,10 +258,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     
     //MARK : - LocationCellDelegate
     /***************************************************************/
-    
-    func didTapAppleMap(url: String) {
-
-    }
+    func didTapAppleMap(url: String) {}
 }
 
 

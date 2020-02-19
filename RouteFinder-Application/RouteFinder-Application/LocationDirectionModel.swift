@@ -30,6 +30,7 @@ class LocationDirectionModel {
     //Declare your model variables here
     var locationDirectionList : [LocationDirection] = []
 
+    //MARK: - Sorting Algorithm Using Binary Search
     func sortLocationDirectionList(desiredDistance : Int) {
         if locationDirectionList.count<=1{
             return
@@ -72,7 +73,6 @@ class LocationDirectionModel {
         
         return binarySearch(list: list, item: item, low: low, high: mid-1, desiredDistance: desiredDistance)
     }
-
 }
 
 

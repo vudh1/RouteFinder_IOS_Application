@@ -91,17 +91,17 @@
 		80511B3123F4A616005DA155 /* RouteFinder-Application */ = {
 			isa = PBXGroup;
 			children = (
-				80CA3C9F23FDD5DF007D07D1 /* RouteFinder.entitlements */,
 				80CA3C9D23FD3437007D07D1 /* HealthController.swift */,
-				80511B3223F4A616005DA155 /* AppDelegate.swift */,
-				80511B3423F4A616005DA155 /* SceneDelegate.swift */,
 				80511B3623F4A616005DA155 /* NavigationController.swift */,
 				80CA3C9723FA7723007D07D1 /* LocationCell.swift */,
-				80511B3823F4A616005DA155 /* Main.storyboard */,
-				80511B3B23F4A618005DA155 /* Assets.xcassets */,
-				80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */,
 				80511B4623F5CD62005DA155 /* LocationDataModel.swift */,
 				80511B4A23F60451005DA155 /* LocationDirectionModel.swift */,
+				80511B3823F4A616005DA155 /* Main.storyboard */,
+				80511B3D23F4A618005DA155 /* LaunchScreen.storyboard */,
+				80511B3223F4A616005DA155 /* AppDelegate.swift */,
+				80511B3423F4A616005DA155 /* SceneDelegate.swift */,
+				80511B3B23F4A618005DA155 /* Assets.xcassets */,
+				80CA3C9F23FDD5DF007D07D1 /* RouteFinder.entitlements */,
 				80511B4023F4A618005DA155 /* Info.plist */,
 			);
 			path = "RouteFinder-Application";
@@ -407,7 +407,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
 				PRODUCT_NAME = RouteFinder;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -428,7 +428,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ucirvine-danielvu.RouteFinder-Application";
 				PRODUCT_NAME = RouteFinder;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
