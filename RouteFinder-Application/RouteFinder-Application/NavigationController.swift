@@ -11,10 +11,10 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-class NavigationController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate, LocationCellDelegate {
-    
+class NavigationController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate,LocationCellDelegate {
+
     var desiredDistanceFromHealthController : String?
-    
+    var sortingOption : Int = 0
     //model variables
     let locationManager = CLLocationManager()
     let locationDataModel = LocationDataModel()
@@ -41,48 +41,32 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     //Storyboard Elements
     @IBOutlet weak var tableView: UITableView!
         
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if Int(desiredDistanceFromHealthController!)! > 0{
-            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+    @IBOutlet weak var sortingSegment: UISegmentedControl!
+    
+    @IBAction func sortingChange(_ sender: Any) {
+        switch sortingSegment.selectedSegmentIndex{
+        case 0:
+            sortingOption = 0
+            nearbyLocationUpdate()
+        case 1:
+            sortingOption = 1
+            nearbyLocationUpdate()
+        case 2:
+            sortingOption = 2
+            nearbyLocationUpdate()
+        default:
+            return
         }
-        else {
-            travelGoalDistance = 1000
-        }
-        
-        MAX_RADIUS = String(travelGoalDistance+1000)
-
-        // Do any additional setup after loading the view.
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        
-        locationManager.startUpdatingLocation() //asynchronous Method - work in background
     }
     
-    //Refresh locations
     @IBAction func ButtonPressed(_ sender: UIButton) {
-        updateLocationDataCount = 0
-        getLocationDataCount = 0
-        updateLocationDirectionDataCount = 0
-        
-        if Int(desiredDistanceFromHealthController!)! > 0{
-            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
-        }
-        else {
-            travelGoalDistance = 1000
-        }
-        
-        MAX_RADIUS = String(travelGoalDistance+1000)
-        
-        locationDataModel.locationDataList.removeAll()
-        locationDirectionModel.locationDirectionList.removeAll()
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        nearbyLocationUpdate()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+       nearbyLocationUpdate()
     }
 
     
@@ -168,7 +152,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                         print("self.locationDataModel.locationDataList.count: \(self.locationDataModel.locationDataList.count)")
                         if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count){
                             print("Sorting LocationDirectionList")
-                            self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance)
+                            self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption: self.sortingOption)
                             self.tableView.reloadData()
                         }
                     }
@@ -244,7 +228,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
 
         let durationInMinutes = "\(String(locationDirectionModel.locationDirectionList[indexPath.row].duration/60)) mins"
         
-        let locationCoordinate = "\(locationDirectionModel.locationDirectionList[indexPath.row].latitude),\(locationDirectionModel.locationDirectionList[indexPath.row].longitude))"
+        let locationCoordinate = "\(locationDirectionModel.locationDirectionList[indexPath.row].latitude),\(locationDirectionModel.locationDirectionList[indexPath.row].longitude)"
 
         let parameters : [String : String] = [ "locationName" : locationName, "locationDistance" : distanceInKilometers, "locationDuration" : durationInMinutes , "locationCoordinate" : locationCoordinate]
         
@@ -259,6 +243,31 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     //MARK : - LocationCellDelegate
     /***************************************************************/
     func didTapAppleMap(url: String) {}
+    
+
+    //MARK : - function Call Location
+    func nearbyLocationUpdate(){
+        updateLocationDataCount = 0
+        getLocationDataCount = 0
+        updateLocationDirectionDataCount = 0
+        
+        if Int(desiredDistanceFromHealthController!)! > 0{
+            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+        }
+        else {
+            travelGoalDistance = 1000
+        }
+           
+        MAX_RADIUS = String(travelGoalDistance+1000)
+        
+        locationDataModel.locationDataList.removeAll()
+        locationDirectionModel.locationDirectionList.removeAll()
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
 }
 
 

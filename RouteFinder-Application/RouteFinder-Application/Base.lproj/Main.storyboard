@@ -26,7 +26,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="116"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grl-xu-MhH">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grl-xu-MhH">
                                                     <rect key="frame" x="304" y="11" width="101" height="95"/>
                                                     <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" title="Get Direction">
@@ -100,45 +100,75 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="vTA-zf-hrR"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpK-FI-DZH">
-                                <rect key="frame" x="114" y="678" width="187" height="30"/>
-                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Find Nearby Location"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpK-FI-DZH">
+                                <rect key="frame" x="324" y="678" width="81" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Refresh">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="ButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BuI-Jd-chE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6J-GP-kuq">
-                                <rect key="frame" x="26" y="678" width="34" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6J-GP-kuq">
+                                <rect key="frame" x="9" y="678" width="45" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="OD0-jL-rAx"/>
-                                    <constraint firstAttribute="width" constant="34" id="qhE-yj-VQG"/>
+                                    <constraint firstAttribute="width" constant="45" id="qhE-yj-VQG"/>
                                 </constraints>
-                                <state key="normal" title="Back"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <segue destination="49u-qW-aKM" kind="unwind" unwindAction="unwindToHealthControllerWith_sender:" id="6xm-9Y-cQe"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rxR-jO-CUM">
+                                <rect key="frame" x="62" y="677" width="250" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="70P-Zz-cjJ"/>
+                                    <constraint firstAttribute="width" constant="209" id="O48-o2-Tob"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Goal"/>
+                                    <segment title="Location"/>
+                                    <segment title="Type"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <action selector="sortingChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="D3h-by-DCL"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="k6J-GP-kuq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="9" id="0vQ-vg-U0t"/>
+                            <constraint firstItem="k6J-GP-kuq" firstAttribute="top" secondItem="oXK-tI-uyU" secondAttribute="bottom" constant="8" id="5F1-my-jfN"/>
                             <constraint firstItem="DpK-FI-DZH" firstAttribute="top" secondItem="oXK-tI-uyU" secondAttribute="bottom" constant="8" id="AsA-P4-5DY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k6J-GP-kuq" secondAttribute="bottom" constant="8" id="Cwu-E6-hT0"/>
+                            <constraint firstItem="rxR-jO-CUM" firstAttribute="leading" secondItem="k6J-GP-kuq" secondAttribute="trailing" constant="49" id="GMl-Re-3Rz"/>
                             <constraint firstItem="DpK-FI-DZH" firstAttribute="top" secondItem="oXK-tI-uyU" secondAttribute="bottom" constant="8" id="JAa-NW-IGQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k6J-GP-kuq" secondAttribute="bottom" constant="8" id="LUE-gA-5iK"/>
                             <constraint firstItem="oXK-tI-uyU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Nmx-6e-mqW"/>
                             <constraint firstItem="k6J-GP-kuq" firstAttribute="top" secondItem="oXK-tI-uyU" secondAttribute="bottom" constant="8" id="TQO-0Q-Pru"/>
-                            <constraint firstItem="DpK-FI-DZH" firstAttribute="leading" secondItem="k6J-GP-kuq" secondAttribute="trailing" constant="54" id="dli-ds-U7f"/>
-                            <constraint firstItem="k6J-GP-kuq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="gXM-UW-QoY"/>
-                            <constraint firstItem="DpK-FI-DZH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="114" id="lvY-6O-j5f"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DpK-FI-DZH" secondAttribute="trailing" constant="113" id="mS2-3p-s4V"/>
+                            <constraint firstItem="rxR-jO-CUM" firstAttribute="top" secondItem="oXK-tI-uyU" secondAttribute="bottom" constant="7" id="Vvd-W7-ZSs"/>
+                            <constraint firstItem="DpK-FI-DZH" firstAttribute="leading" secondItem="k6J-GP-kuq" secondAttribute="trailing" constant="270" id="dli-ds-U7f"/>
+                            <constraint firstItem="rxR-jO-CUM" firstAttribute="leading" secondItem="k6J-GP-kuq" secondAttribute="trailing" constant="8" id="gRo-y3-58v"/>
+                            <constraint firstItem="k6J-GP-kuq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="9" id="gXM-UW-QoY"/>
+                            <constraint firstItem="DpK-FI-DZH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="324" id="lvY-6O-j5f"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DpK-FI-DZH" secondAttribute="trailing" constant="9" id="mS2-3p-s4V"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DpK-FI-DZH" secondAttribute="bottom" constant="8" id="neE-vX-9hK"/>
+                            <constraint firstItem="DpK-FI-DZH" firstAttribute="leading" secondItem="rxR-jO-CUM" secondAttribute="trailing" constant="12" id="oDU-Fh-emM"/>
                             <constraint firstItem="oXK-tI-uyU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sh7-d7-x3n"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rxR-jO-CUM" secondAttribute="bottom" constant="8" id="x5H-Ep-NYa"/>
                             <constraint firstItem="oXK-tI-uyU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="y3g-ZR-BAy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="NXt-1c-Tzw"/>
                     <connections>
+                        <outlet property="sortingSegment" destination="rxR-jO-CUM" id="aNs-1A-N2y"/>
                         <outlet property="tableView" destination="oXK-tI-uyU" id="z4d-jZ-B5F"/>
                     </connections>
                 </viewController>
@@ -161,7 +191,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xw3-UK-m3m">
-                                <rect key="frame" x="97" y="333" width="221" height="30"/>
+                                <rect key="frame" x="96.666666666666686" y="333" width="221" height="30"/>
                                 <state key="normal" title="Search Locations Matching Goal">
                                     <color key="titleColor" red="0.16325479779999999" green="0.34916844499999999" blue="0.70163645549999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
