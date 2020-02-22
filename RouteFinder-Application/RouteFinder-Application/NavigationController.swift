@@ -19,25 +19,26 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let locationDirectionModel = LocationDirectionModel()
     
     //API information
-    let SEARCH_API_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-    let DIRECTION_API_URL = "https://maps.googleapis.com/maps/api/directions/json?"
-    let GOOGLE_APP_ID = "AIzaSyDS8N3_J0XJ4OwKElqCRwAqW1-AYB41glA"
+    var SEARCH_API_URL = ""
+    var DIRECTION_API_URL = ""
+    var GOOGLE_API_ID = ""
     
     //local variables: all distance units are meters
-    var MAX_RADIUS = 10000
+    var MAX_RADIUS = 1000
     let MAX_DIFF_FROM_DISTANCE = 500
     let MIN_DISTANCE = 1
     let TRAVEL_MODE = "walking"
     let MAX_CELL = 15
 
-    let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
+    //let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
+    let LOCATION_TYPE  = ["library","cafe","park","shopping_mall","tourist_attraction"]
     
     var travelGoalDistance = 0
     var getLocationDataCount = 0
     var updateLocationDataCount = 0
     var updateLocationDirectionDataCount = 0
     var desiredDistanceFromHealthController : String?
-    var sortingOption : Int = 0
+    var sortingOption : Int = 1
     var mapDestinationLatitude : Double = 0
     var mapDestinationLongitude : Double = 0
     var mapLocationName : String = ""
@@ -73,19 +74,40 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         nearbyLocationUpdate()
     }
     
+    func setKeyValues() -> Bool{
+        var keys: NSDictionary?
+        
+        if let pathToKeys = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: pathToKeys)
+           
+           
+            
+        }
+        
+        if let dict = keys {
+             SEARCH_API_URL = dict["placesAPIUrl"] as! String
+             DIRECTION_API_URL = dict["directionsAPIUrl"]  as! String
+             GOOGLE_API_ID = dict["googleAPIKey"]  as! String
+            
+            return true
+        }
+        
+        return false
+    }
+    
     /***************************************************************/
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         backOutlet.layer.masksToBounds = true
         backOutlet.layer.cornerRadius = 8.0
         
         refreshOutlet.layer.masksToBounds = true
         refreshOutlet.layer.cornerRadius = 8.0
-    sortingSegmentOutlet.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Avenir Black",size : 15)], for: .normal)
+        sortingSegmentOutlet.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Avenir Black",size : 15)!], for: .normal)
 
-        
-       nearbyLocationUpdate()
+        nearbyLocationUpdate()
     }
 
 
@@ -107,7 +129,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             let longitude = String(location.coordinate.longitude)
                         
             for i in 0...LOCATION_TYPE.count-1{
-                let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_APP_ID]
+                let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_API_ID]
                 getLocationData(Url: SEARCH_API_URL, parameters: originParams){
                     //only getDirection after searching nearbyLocation of all types
                     print("self.updateLocationDataCount : \(self.updateLocationDataCount)")
@@ -129,27 +151,35 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     }
     
     //MARK : - function Call Location
+    /***************************************************************/
+
       func nearbyLocationUpdate(){
-          updateLocationDataCount = 0
-          getLocationDataCount = 0
-          updateLocationDirectionDataCount = 0
-          
-          if Int(desiredDistanceFromHealthController!)! > 0{
-              travelGoalDistance = Int(desiredDistanceFromHealthController!)!
-          }
-          else {
-              travelGoalDistance = MIN_DISTANCE
-          }
-             
-          MAX_RADIUS = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
-          
-          locationDataModel.locationDataList.removeAll()
-          locationDirectionModel.locationDirectionList.removeAll()
-          
-          locationManager.delegate = self
-          locationManager.desiredAccuracy = kCLLocationAccuracyBest
-          locationManager.requestWhenInUseAuthorization()
-          locationManager.startUpdatingLocation()
+        if setKeyValues() == true {
+            print("Important Keys are Read!!!")
+            updateLocationDataCount = 0
+                     getLocationDataCount = 0
+                     updateLocationDirectionDataCount = 0
+                     
+                     if Int(desiredDistanceFromHealthController!)! > 0{
+                         travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+                     }
+                     else {
+                         travelGoalDistance = MIN_DISTANCE
+                     }
+                        
+                     MAX_RADIUS = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
+                     
+                     locationDataModel.locationDataList.removeAll()
+                     locationDirectionModel.locationDirectionList.removeAll()
+                     
+                     locationManager.delegate = self
+                     locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                     locationManager.requestWhenInUseAuthorization()
+                     locationManager.startUpdatingLocation()
+        }
+        else {
+            print("Important Keys are not Read!!!")
+        }
       }
 
     //MARK: - Networking
@@ -179,7 +209,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         print("GetDirectionData")
                 
         for (_,destinationInfo) in locationDataModel.locationDataList{
-            let params : [String : String] = ["origin" : "\(String(originParameters["location"]!))","destination" : "\(destinationInfo.latitude),\(destinationInfo.longitude)","mode" : TRAVEL_MODE,"key" : GOOGLE_APP_ID]
+            let params : [String : String] = ["origin" : "\(String(originParameters["location"]!))","destination" : "\(destinationInfo.latitude),\(destinationInfo.longitude)","mode" : TRAVEL_MODE,"key" : GOOGLE_API_ID]
 
             AF.request(url, method : .get, parameters: params).responseJSON{ response in
                 switch response.result{

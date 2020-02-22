@@ -10,6 +10,8 @@ import UIKit
 import HealthKit
 
 class HealthController: UIViewController, UITextFieldDelegate {
+    let MAX_DIGITS = 4
+    
     @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
     @IBOutlet weak var searchLocationsOutlet: UIButton! //outlet of Search Location Button
@@ -51,8 +53,8 @@ class HealthController: UIViewController, UITextFieldDelegate {
         //MARK: - TextField
     /***************************************************************/
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if  range.location >= 5{
-            return false //limit only 5 digits can be entered
+        if  range.location >= MAX_DIGITS {
+            return false //limit only 4 digits can be entered
         }
         
         //limit only numeric letters can be entered
