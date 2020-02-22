@@ -50,6 +50,12 @@ class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         let sourceCoordinates = locationManager.location?.coordinate
         
         let destCoordinate = CLLocationCoordinate2D(latitude: destLatitude, longitude: destLongitude)
+        
+        //Pin the destination
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = destCoordinate
+        mapView.addAnnotation(annotation)
+        
         let sourcePlacemark = MKPlacemark(coordinate : sourceCoordinates!)
         let destPlacemark = MKPlacemark(coordinate: destCoordinate)
         
