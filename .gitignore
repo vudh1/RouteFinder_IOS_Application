@@ -1,1 +1,2 @@
-*.plist
+Keys.plist
+.DS_Store

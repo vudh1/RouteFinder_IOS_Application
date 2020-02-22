@@ -85,8 +85,8 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         }
         
         if let dict = keys {
-             SEARCH_API_URL = dict["placesAPIUrl"] as! String
-             DIRECTION_API_URL = dict["directionsAPIUrl"]  as! String
+             SEARCH_API_URL = dict["placesAPI"] as! String
+             DIRECTION_API_URL = dict["directionsAPI"]  as! String
              GOOGLE_API_ID = dict["googleAPIKey"]  as! String
             
             return true
