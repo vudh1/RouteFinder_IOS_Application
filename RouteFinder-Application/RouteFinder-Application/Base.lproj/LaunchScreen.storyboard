@@ -15,30 +15,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To RouteFinder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrj-tn-BLV">
-                                <rect key="frame" x="57" y="353" width="300" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to ..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrj-tn-BLV">
+                                <rect key="frame" x="57" y="334" width="300" height="174"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="ZMS-Am-iaz"/>
-                                    <constraint firstAttribute="height" constant="34" id="dZA-li-Hh4"/>
+                                    <constraint firstAttribute="height" constant="174" id="Bnt-HJ-cca"/>
+                                    <constraint firstAttribute="width" constant="300" id="YjA-DM-glk"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="28"/>
-                                <color key="textColor" red="0.16325479777871144" green="0.34916844495477561" blue="0.70163645552847664" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="37"/>
+                                <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vrj-tn-BLV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="57" id="73M-KU-KIj"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vrj-tn-BLV" secondAttribute="trailing" constant="57" id="7x5-gF-oG2"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vrj-tn-BLV" secondAttribute="bottom" constant="475" id="K8x-63-i4k"/>
-                            <constraint firstItem="vrj-tn-BLV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="309" id="ZDA-3L-A9A"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vrj-tn-BLV" secondAttribute="bottom" constant="354" id="7bQ-7j-TjW"/>
+                            <constraint firstItem="vrj-tn-BLV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="57" id="Fdy-xE-p0E"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vrj-tn-BLV" secondAttribute="trailing" constant="57" id="OTj-oh-Cey"/>
+                            <constraint firstItem="vrj-tn-BLV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="290" id="kZu-uz-Dc9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
 </document>

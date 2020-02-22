@@ -45,6 +45,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
+            locationManager.startUpdatingHeading()
         }
 
         let sourceCoordinates = locationManager.location?.coordinate
@@ -83,9 +84,17 @@ class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
             self.mapView.addOverlay(route.polyline, level: .aboveRoads)
             
             let rect = route.polyline.boundingMapRect
+            
             self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
         })
     }
+    
+//    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+//        
+//        mapView.camera.heading = newHeading.magneticHeading
+//        mapView.setCamera(mapView.camera, animated: true)
+//    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

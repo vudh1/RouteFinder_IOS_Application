@@ -39,12 +39,13 @@ class LocationDirectionModel {
         }
         
         switch sortingOption{
-        case 0: // sort by goal distance
+
+        case 0: // sort by current location
             for i in 1...locationDirectionList.count-1{
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
                 
-                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: desiredDistance)
+                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: 0)
                 
                 while j >= loc {
                     locationDirectionList[j+1]=locationDirectionList[j]
@@ -53,12 +54,13 @@ class LocationDirectionModel {
                 
                 locationDirectionList[j+1] = selected
             }
-        case 1: // sort by current location
+            
+        case 1: // sort by goal distance
             for i in 1...locationDirectionList.count-1{
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
                 
-                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: 0)
+                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: desiredDistance)
                 
                 while j >= loc {
                     locationDirectionList[j+1]=locationDirectionList[j]
@@ -76,7 +78,7 @@ class LocationDirectionModel {
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
                 
-                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: desiredDistance)
+                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: 0)
                 
                 while j >= loc {
                     locationDirectionList[j+1]=locationDirectionList[j]
