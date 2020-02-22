@@ -24,6 +24,7 @@ class LocationCell: UITableViewCell {
     @IBOutlet weak var DistanceLabel: UILabel!
     @IBOutlet weak var DurationLabel: UILabel!
     @IBOutlet weak var getDirectionOutlet: UIButton!
+    @IBOutlet weak var appleMapOutlet: UIButton!
 
     func setLocationCellValues(infoParameters : [String:String],coordinateParameters : [String : Double]){
         LocationLabel.text = infoParameters["locationName"]
@@ -43,13 +44,25 @@ class LocationCell: UITableViewCell {
         
         getDirectionOutlet.layer.masksToBounds = true
         getDirectionOutlet.layer.cornerRadius = 8.0
+        
+        appleMapOutlet.layer.masksToBounds = true
+        appleMapOutlet.layer.cornerRadius = 8.0
     }
     
     
     @IBAction func getDirectionPressed(_ sender: Any) {
         delegate?.didTapAppleMap(locationLatitude: locationLatitude, locationLongitude: locationLongitude, locationName: LocationLabel.text!)
+        
     }
-
+    
+    @IBAction func appleMapPressed(_ sender: Any) {
+        let appleLinkWithCoordinate = "http://maps.apple.com/?daddr=\(locationLatitude),\(locationLongitude)&dirflg=w"
+        
+        if let url = URL(string: appleLinkWithCoordinate){
+                  UIApplication.shared.open(url as URL, options:[:], completionHandler:nil)
+        }
+    }
+    
     
     //MARK:-
     
