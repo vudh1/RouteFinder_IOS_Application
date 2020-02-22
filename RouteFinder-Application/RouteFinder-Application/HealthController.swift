@@ -10,28 +10,14 @@ import UIKit
 import HealthKit
 
 class HealthController: UIViewController, UITextFieldDelegate {
+    @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        desiredDistance.keyboardType = UIKeyboardType.decimalPad
-
-        desiredDistance.delegate = self
-        // Do any additional setup after loading the view.
-    }
+    @IBOutlet weak var searchLocationsOutlet: UIButton! //outlet of Search Location Button
     
-    
-    
-    
-    
-    
-    //MARK :- Searching for locations
-    @IBAction func buttonPressed(_ sender: UIButton) {
+    @IBAction func searchLocationsPressed(_ sender: Any) {
         performSegue(withIdentifier: "goToNavigationController", sender: self)
     }
-    
-    @IBOutlet weak var desiredDistance: UITextField!
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNavigationController"{
             let destinationVC = segue.destination as! NavigationController
@@ -42,14 +28,29 @@ class HealthController: UIViewController, UITextFieldDelegate {
             else{
                 destinationVC.desiredDistanceFromHealthController = desiredDistance.text!
             }
-            
         }
     }
+    
+    /***************************************************************/
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        desiredDistance.layer.masksToBounds = true
+        desiredDistance.layer.cornerRadius = 8.0
+        desiredDistance.keyboardType = UIKeyboardType.decimalPad
+        desiredDistance.delegate = self
+
+        searchLocationsOutlet.layer.masksToBounds = true
+        searchLocationsOutlet.layer.cornerRadius = 8.0
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
         //MARK: - TextField
     /***************************************************************/
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         if  range.location >= 5{
             return false //limit only 5 digits can be entered
         }
@@ -68,5 +69,7 @@ class HealthController: UIViewController, UITextFieldDelegate {
     
     
     //MARK: - Unwind Segue
+    /***************************************************************/
+
     @IBAction func unwindToHealthController(_sender : UIStoryboardSegue){}
 }

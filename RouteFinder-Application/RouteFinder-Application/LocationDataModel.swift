@@ -26,10 +26,7 @@ class Location {
 }
 
 class LocationDataModel {
-
-    //Declare your model variables here
     var locationDataList : [String : Location] = [:]
-
 }
 
 

@@ -31,13 +31,15 @@ class LocationDirectionModel {
     var locationDirectionList : [LocationDirection] = []
 
     //MARK: - Sorting Algorithm Using Binary Search
+    /***************************************************************/
+
     func sortLocationDirectionList(desiredDistance : Int, sortingOption : Int) {
         if locationDirectionList.count<=1{
             return
         }
         
         switch sortingOption{
-        case 0:
+        case 0: // sort by goal distance
             for i in 1...locationDirectionList.count-1{
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
@@ -51,7 +53,7 @@ class LocationDirectionModel {
                 
                 locationDirectionList[j+1] = selected
             }
-        case 1:
+        case 1: // sort by current location
             for i in 1...locationDirectionList.count-1{
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
@@ -65,8 +67,11 @@ class LocationDirectionModel {
                 
                 locationDirectionList[j+1] = selected
             }
+        
         //MARK: - Change this case later when figure out the preferences of user
-        case 2:
+        /***************************************************************/
+
+        case 2: //sort by type references
             for i in 1...locationDirectionList.count-1{
                 var j : Int = i-1
                 let selected = locationDirectionList[i]
@@ -85,6 +90,9 @@ class LocationDirectionModel {
         }
     }
     
+    //MARK: - Binary Search Algorithm
+    /***************************************************************/
+
     func binarySearch(list : [LocationDirection], item : LocationDirection, low : Int, high : Int, desiredDistance : Int) -> Int{
         if high <= low {
             if abs(item.distance-desiredDistance) > abs(list[low].distance-desiredDistance) {

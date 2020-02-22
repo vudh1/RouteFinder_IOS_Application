@@ -12,9 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 class NavigationController: UIViewController,CLLocationManagerDelegate,UITableViewDelegate, UITableViewDataSource , UITextFieldDelegate,LocationCellDelegate {
-
-    var desiredDistanceFromHealthController : String?
-    var sortingOption : Int = 0
+    
     //model variables
     let locationManager = CLLocationManager()
     let locationDataModel = LocationDataModel()
@@ -25,9 +23,10 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let DIRECTION_API_URL = "https://maps.googleapis.com/maps/api/directions/json?"
     let GOOGLE_APP_ID = "AIzaSyDS8N3_J0XJ4OwKElqCRwAqW1-AYB41glA"
     
-    //local variables
-    var MAX_RADIUS = "10000"
-    let SUGGEST_DISTANCE = "2500"
+    //local variables: all distance units are meters
+    var MAX_RADIUS = 10000
+    let MAX_DIFF_FROM_DISTANCE = 500
+    let MIN_DISTANCE = 1
     let TRAVEL_MODE = "walking"
     let MAX_CELL = 15
 
@@ -37,43 +36,60 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     var getLocationDataCount = 0
     var updateLocationDataCount = 0
     var updateLocationDirectionDataCount = 0
-
+    var desiredDistanceFromHealthController : String?
+    var sortingOption : Int = 0
+    var mapDestinationLatitude : Double = 0
+    var mapDestinationLongitude : Double = 0
+    var mapLocationName : String = ""
+    
     //Storyboard Elements
     @IBOutlet weak var tableView: UITableView!
-        
-    @IBOutlet weak var sortingSegment: UISegmentedControl!
     
+    @IBOutlet weak var sortingSegmentOutlet: UISegmentedControl!
     @IBAction func sortingChange(_ sender: Any) {
-        switch sortingSegment.selectedSegmentIndex{
+        switch sortingSegmentOutlet.selectedSegmentIndex{
         case 0:
             sortingOption = 0
             nearbyLocationUpdate()
+            break
         case 1:
             sortingOption = 1
             nearbyLocationUpdate()
+            break
         case 2:
             sortingOption = 2
             nearbyLocationUpdate()
+            break
         default:
-            return
+            break
         }
     }
     
-    @IBAction func ButtonPressed(_ sender: UIButton) {
+    @IBOutlet weak var backOutlet: UIButton!
+    
+    @IBOutlet weak var refreshOutlet: UIButton!
+    
+    @IBAction func refreshPressed(_ sender: Any) {
         nearbyLocationUpdate()
     }
     
+    /***************************************************************/
+
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        backOutlet.layer.masksToBounds = true
+        backOutlet.layer.cornerRadius = 8.0
+        
+        refreshOutlet.layer.masksToBounds = true
+        refreshOutlet.layer.cornerRadius = 8.0
+        
        nearbyLocationUpdate()
     }
 
-    
+
     //MARK: - Location Manager Delegate Methods
     /***************************************************************/
     
-    //Write the didUpdateLocations method here:
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("LocationManager")
         let location = locations[locations.count - 1]
@@ -89,7 +105,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             let longitude = String(location.coordinate.longitude)
                         
             for i in 0...LOCATION_TYPE.count-1{
-                let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : MAX_RADIUS ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_APP_ID]
+                let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_APP_ID]
                 getLocationData(Url: SEARCH_API_URL, parameters: originParams){
                     //only getDirection after searching nearbyLocation of all types
                     print("self.updateLocationDataCount : \(self.updateLocationDataCount)")
@@ -106,11 +122,33 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         print("DoneLocationManager")
     }
     
-    
-    //Write the didFailWithError method here:
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
+    
+    //MARK : - function Call Location
+      func nearbyLocationUpdate(){
+          updateLocationDataCount = 0
+          getLocationDataCount = 0
+          updateLocationDirectionDataCount = 0
+          
+          if Int(desiredDistanceFromHealthController!)! > 0{
+              travelGoalDistance = Int(desiredDistanceFromHealthController!)!
+          }
+          else {
+              travelGoalDistance = MIN_DISTANCE
+          }
+             
+          MAX_RADIUS = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
+          
+          locationDataModel.locationDataList.removeAll()
+          locationDirectionModel.locationDirectionList.removeAll()
+          
+          locationManager.delegate = self
+          locationManager.desiredAccuracy = kCLLocationAccuracyBest
+          locationManager.requestWhenInUseAuthorization()
+          locationManager.startUpdatingLocation()
+      }
 
     //MARK: - Networking
     /***************************************************************/
@@ -169,7 +207,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     
      //MARK: - JSON Parsing
      /***************************************************************/
-     //Write the updateLocationData method here:
+
     func updateLocationData(json : JSON, completion : () -> Void){
         print("UpdateLocationData")
         
@@ -206,6 +244,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     
     //MARK: - TableView
     /***************************************************************/
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print("Reload Table")
         
@@ -228,46 +267,47 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
 
         let durationInMinutes = "\(String(locationDirectionModel.locationDirectionList[indexPath.row].duration/60)) mins"
         
-        let locationCoordinate = "\(locationDirectionModel.locationDirectionList[indexPath.row].latitude),\(locationDirectionModel.locationDirectionList[indexPath.row].longitude)"
+        let locationLatitude = locationDirectionModel.locationDirectionList[indexPath.row].latitude
+    
+        let locationLongitude = locationDirectionModel.locationDirectionList[indexPath.row].longitude
 
-        let parameters : [String : String] = [ "locationName" : locationName, "locationDistance" : distanceInKilometers, "locationDuration" : durationInMinutes , "locationCoordinate" : locationCoordinate]
+        let infoParameters : [String : String] = [ "locationName" : locationName, "locationDistance" : distanceInKilometers, "locationDuration" : durationInMinutes]
         
-        cell.setLocationCellValues(parameters: parameters)
+        let coordinateParameters : [String : Double] = [ "locationLatitude" : locationLatitude, "locationLongitude" : locationLongitude]
+        
+        cell.setLocationCellValues(infoParameters: infoParameters, coordinateParameters: coordinateParameters)
         
         cell.delegate = self
 
         return cell
     }
-
     
-    //MARK : - LocationCellDelegate
+    //MARK :- GoToMapController
     /***************************************************************/
-    func didTapAppleMap(url: String) {}
-    
 
-    //MARK : - function Call Location
-    func nearbyLocationUpdate(){
-        updateLocationDataCount = 0
-        getLocationDataCount = 0
-        updateLocationDirectionDataCount = 0
+    func didTapAppleMap(locationLatitude : Double,locationLongitude : Double, locationName : String ){
+        mapDestinationLatitude = locationLatitude
+        mapDestinationLongitude = locationLongitude
+        mapLocationName = locationName
         
-        if Int(desiredDistanceFromHealthController!)! > 0{
-            travelGoalDistance = Int(desiredDistanceFromHealthController!)!
-        }
-        else {
-            travelGoalDistance = 1000
-        }
-           
-        MAX_RADIUS = String(travelGoalDistance+1000)
-        
-        locationDataModel.locationDataList.removeAll()
-        locationDirectionModel.locationDirectionList.removeAll()
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        performSegue(withIdentifier: "goToMapController", sender: self)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToMapController"{
+            let destinationVC = segue.destination as! MapController
+            
+            destinationVC.destLatitude = mapDestinationLatitude
+            destinationVC.destLongitude = mapDestinationLongitude
+            destinationVC.destName = mapLocationName
+        }
+    }
+    
+    //MARK: - Unwind Segue
+    /***************************************************************/
+
+    @IBAction func unwindToNavigationController(_sender : UIStoryboardSegue){}
+
 }
 
 

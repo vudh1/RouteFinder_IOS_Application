@@ -39,6 +39,8 @@
 	<string>We need your health data to obtain goal distance</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>We need your health data to obtain goal distance</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location to obtain nearby places</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We need your location to obtain nearby places</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
