@@ -28,8 +28,8 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let MAX_DIFF_FROM_DISTANCE = 500
     let MIN_DISTANCE = 1
     let TRAVEL_MODE = "walking"
-    let MAX_CELL = 15
-
+    let MAX_CELL = 20
+    let MAX_DIRECTION_SEARCH = 50
     //let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
     let LOCATION_TYPE  = ["library","cafe","park","shopping_mall","tourist_attraction"]
     
@@ -48,22 +48,8 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     
     @IBOutlet weak var sortingSegmentOutlet: UISegmentedControl!
     @IBAction func sortingChange(_ sender: Any) {
-        switch sortingSegmentOutlet.selectedSegmentIndex{
-        case 0:
-            sortingOption = 0
-            nearbyLocationUpdate()
-            break
-        case 1:
-            sortingOption = 1
-            nearbyLocationUpdate()
-            break
-        case 2:
-            sortingOption = 2
-            nearbyLocationUpdate()
-            break
-        default:
-            break
-        }
+        locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption:          sortingSegmentOutlet.selectedSegmentIndex)
+        tableView.reloadData()
     }
     
     @IBOutlet weak var backOutlet: UIButton!
@@ -106,7 +92,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         refreshOutlet.layer.masksToBounds = true
         refreshOutlet.layer.cornerRadius = 8.0
         sortingSegmentOutlet.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Avenir Black",size : 15)!], for: .normal)
-
+        
         nearbyLocationUpdate()
     }
 
@@ -205,7 +191,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         print("DoneGetLocationData")
     }
 
-    func getDirectionData(url : String, originParameters : [String: String], LocationDataModel : LocationDataModel, completion : () -> Void){
+    func getDirectionData(url : String, originParameters : [String: String], LocationDataModel : LocationDataModel, completion : @escaping () -> Void){
         print("GetDirectionData")
                 
         for (_,destinationInfo) in locationDataModel.locationDataList{
@@ -220,18 +206,25 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                         self.updateLocationDirectionDataCount+=1
                         print("updateLocationDirectionDataCount: \(self.updateLocationDirectionDataCount)")
                         print("self.locationDataModel.locationDataList.count: \(self.locationDataModel.locationDataList.count)")
-                        if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count){
+                        if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count && self.updateLocationDirectionDataCount <= self.MAX_DIRECTION_SEARCH){
                             print("Sorting LocationDirectionList")
                             self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption: self.sortingOption)
                             self.tableView.reloadData()
                         }
+                        
                     }
+                    
+                    completion()
                     
                 case .failure(let error):
                     print("Error \(error)")
+                    
+                    completion()
+
                 }
             }
         }
+        
         
         print("DoneGetDirectionData")
    }

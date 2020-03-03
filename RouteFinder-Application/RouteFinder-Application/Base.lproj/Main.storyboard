@@ -211,6 +211,21 @@
             </objects>
             <point key="canvasLocation" x="114.49275362318842" y="136.95652173913044"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="eOl-Tq-NV0">
+            <objects>
+                <viewController id="EvP-RE-5bK" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b9a-Q1-FxM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="mry-k9-gDP"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ueK-Bp-z0h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1568" y="198"/>
+        </scene>
         <!--Health Controller-->
         <scene sceneID="Qd6-G7-wdW">
             <objects>
@@ -220,7 +235,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Goal" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zrE-zw-wOz">
-                                <rect key="frame" x="153" y="289" width="108" height="34"/>
+                                <rect key="frame" x="153" y="291" width="108" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="108" id="k11-9L-qec"/>
                                     <constraint firstAttribute="height" constant="34" id="oFN-lx-yqh"/>
@@ -229,7 +244,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert"/>
                             </textField>
                             <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xw3-UK-m3m">
-                                <rect key="frame" x="126" y="331" width="163" height="38"/>
+                                <rect key="frame" x="126" y="333" width="163" height="38"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="Uqg-Fw-tj7"/>
@@ -244,7 +259,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RouteFinder" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAe-xp-caM">
-                                <rect key="frame" x="83" y="149" width="249" height="51"/>
+                                <rect key="frame" x="83" y="149" width="249" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="5D7-K4-101"/>
                                     <constraint firstAttribute="width" constant="249" id="gQg-9L-fm8"/>
@@ -317,7 +332,7 @@
                                     <constraint firstAttribute="width" constant="58" id="WNj-Ci-gaM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="15"/>
-                                <state key="normal" title="Back">
+                                <state key="normal" title="Done">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
