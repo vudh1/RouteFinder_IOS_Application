@@ -10,7 +10,10 @@ import UIKit
 import HealthKit
 
 class HealthController: UIViewController, UITextFieldDelegate {
+    var reccomendGoal : String = ""
     let MAX_DIGITS = 4
+    let locationTypes = ["library","cafe","park","shopping_mall","tourist_attraction"]
+    //["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
     
     @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
@@ -23,6 +26,8 @@ class HealthController: UIViewController, UITextFieldDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToNavigationController"{
             let destinationVC = segue.destination as! NavigationController
+            
+            destinationVC.LOCATION_TYPE = locationTypes
             
             if(desiredDistance.text!.isEmpty){
                 destinationVC.desiredDistanceFromHealthController = "0"
@@ -37,6 +42,8 @@ class HealthController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        desiredDistance.text = reccomendGoal
         desiredDistance.layer.masksToBounds = true
         desiredDistance.layer.cornerRadius = 8.0
         desiredDistance.keyboardType = UIKeyboardType.decimalPad

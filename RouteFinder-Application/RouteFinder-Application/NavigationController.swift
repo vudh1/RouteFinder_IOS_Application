@@ -31,7 +31,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let MAX_CELL = 20
     let MAX_DIRECTION_SEARCH = 50
     //let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
-    let LOCATION_TYPE  = ["library","cafe","park","shopping_mall","tourist_attraction"]
+    var LOCATION_TYPE  : [String] = []
     
     var travelGoalDistance = 0
     var getLocationDataCount = 0
