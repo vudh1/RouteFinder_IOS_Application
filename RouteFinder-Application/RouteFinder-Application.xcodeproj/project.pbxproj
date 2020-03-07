@@ -12,6 +12,7 @@
 		804125352401C47000BA4FB7 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 804125342401C47000BA4FB7 /* Keys.plist */; };
 		8046FAE2240DB0E600D0983C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8046FAE0240DB0A900D0983C /* Assets.xcassets */; };
 		8046FAEA2410588F00D0983C /* HealthDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8046FAE92410588F00D0983C /* HealthDataController.swift */; };
+		8046FAEC2413195E00D0983C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8046FAEB2413195E00D0983C /* MainViewController.swift */; };
 		80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3223F4A616005DA155 /* AppDelegate.swift */; };
 		80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3423F4A616005DA155 /* SceneDelegate.swift */; };
 		80511B3723F4A616005DA155 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80511B3623F4A616005DA155 /* NavigationController.swift */; };
@@ -44,6 +45,7 @@
 		804125342401C47000BA4FB7 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		8046FAE0240DB0A900D0983C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = AppIcons/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		8046FAE92410588F00D0983C /* HealthDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataController.swift; sourceTree = "<group>"; };
+		8046FAEB2413195E00D0983C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		80511B2F23F4A616005DA155 /* RouteFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouteFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80511B3223F4A616005DA155 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80511B3423F4A616005DA155 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				8046FAE0240DB0A900D0983C /* Assets.xcassets */,
+				8046FAEB2413195E00D0983C /* MainViewController.swift */,
 				8046FAE92410588F00D0983C /* HealthDataController.swift */,
 				80CA3C9D23FD3437007D07D1 /* HealthController.swift */,
 				80511B3623F4A616005DA155 /* NavigationController.swift */,
@@ -265,6 +268,7 @@
 				80511B3323F4A616005DA155 /* AppDelegate.swift in Sources */,
 				80511B3523F4A616005DA155 /* SceneDelegate.swift in Sources */,
 				8046FAEA2410588F00D0983C /* HealthDataController.swift in Sources */,
+				8046FAEC2413195E00D0983C /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

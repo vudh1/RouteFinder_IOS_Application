@@ -307,7 +307,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         return cell
     }
     
-    //MARK :- GoToMapController
+    //MARK :- Segue
     /***************************************************************/
 
     func didTapAppleMap(locationLatitude : Double,locationLongitude : Double, locationName : String ){
@@ -328,10 +328,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         }
     }
     
-    //MARK: - Unwind Segue
-    /***************************************************************/
-
-    @IBAction func unwindToNavigationController(_sender : UIStoryboardSegue){}
+  @IBAction func unwindToNavigationController(_sender : UIStoryboardSegue){}
 
 }
 
