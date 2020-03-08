@@ -10,7 +10,12 @@ import UIKit
 import HealthKit
 
 class HealthController: UIViewController, UITextFieldDelegate {
+    
     var reccomendGoal : String = ""
+    
+    @IBOutlet weak var enterDistanceView: UIView!
+    
+    @IBOutlet weak var CurrentGoal: UILabel!
     
     let MAX_DIGITS = 4
     
@@ -22,7 +27,16 @@ class HealthController: UIViewController, UITextFieldDelegate {
     
     @IBAction func searchLocationsPressed(_ sender: Any) {
         performSegue(withIdentifier: "goToNavigationController", sender: self)
+        self.view.removeFromSuperview()
     }
+    
+    @IBOutlet weak var cancelOutlet: UIButton!
+    
+    
+    @IBAction func cancelPressed(_ sender: Any) {
+        self.view.removeFromSuperview()
+    }
+    
      
     
     //MARK: - Segue
@@ -44,7 +58,7 @@ class HealthController: UIViewController, UITextFieldDelegate {
         else if segue.identifier == "goToHealthDataController"{
             let destinationVC = segue.destination as! HealthDataController
             
-            destinationVC.dailyGoal = Int(desiredDistance.text!)!
+            destinationVC.dailyDistance = Int(desiredDistance.text!)!
             
             print("return back to Health Data Controller")
         }
@@ -58,7 +72,8 @@ class HealthController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        desiredDistance.text = reccomendGoal
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
         desiredDistance.layer.masksToBounds = true
         desiredDistance.layer.cornerRadius = 8.0
         desiredDistance.keyboardType = UIKeyboardType.decimalPad
@@ -66,6 +81,16 @@ class HealthController: UIViewController, UITextFieldDelegate {
 
         searchLocationsOutlet.layer.masksToBounds = true
         searchLocationsOutlet.layer.cornerRadius = 8.0
+        
+        cancelOutlet.layer.masksToBounds = true
+        cancelOutlet.layer.cornerRadius = 8.0
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let x = UserDefaults.standard.object(forKey: "UserGoal") as? String {
+            reccomendGoal = x
+            CurrentGoal.text = "Current Goal\n\(String(reccomendGoal))"
+        }
     }
     
     override func didReceiveMemoryWarning() {

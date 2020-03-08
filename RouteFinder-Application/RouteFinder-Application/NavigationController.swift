@@ -91,7 +91,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         
         refreshOutlet.layer.masksToBounds = true
         refreshOutlet.layer.cornerRadius = 8.0
-        sortingSegmentOutlet.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Avenir Black",size : 15)!], for: .normal)
+        sortingSegmentOutlet.setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Avenir Black",size : 17)!], for: .normal)
         
         nearbyLocationUpdate()
     }
