@@ -57,6 +57,7 @@ class HealthDataController: UIViewController {
     var locationTypes : [String] = []
     
     var dailyDistance : Int = 0 //health
+    var dailyStep : Int = 0
     var defaultGoal : Int = 0 //defaultuser
     var currentDistance : Int = 0
     var currentStep : Int = 0
@@ -71,11 +72,13 @@ class HealthDataController: UIViewController {
     var getToday = false
     var getCurrent = false
     
+    @IBOutlet weak var GoalLabel: UILabel!
+    
     @IBOutlet weak var DailyDistanceLabel: UILabel!
     @IBOutlet weak var CurrentAcchievementLabel: UILabel!
     @IBOutlet weak var CurrentToGoalLabel: UILabel!
     
-    @IBOutlet weak var GoalLabel: UILabel!
+    @IBOutlet weak var DailyStepLabel: UILabel!
     @IBOutlet weak var CurrentStepsLabel: UILabel!
     
     @IBOutlet weak var HeightLabel: UILabel!
@@ -140,7 +143,7 @@ class HealthDataController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String] {
+        if (UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String]) != nil {
             //LOCATION_TYPE = x
         }
         else {
@@ -175,6 +178,9 @@ class HealthDataController: UIViewController {
         CurrentToGoalLabel.layer.masksToBounds = true
         CurrentToGoalLabel.layer.cornerRadius = 8.0
         
+        DailyStepLabel.layer.masksToBounds = true
+        DailyStepLabel.layer.cornerRadius = 8.0
+
         CurrentStepsLabel.layer.masksToBounds = true
         CurrentStepsLabel.layer.cornerRadius = 8.0
         
@@ -188,7 +194,7 @@ class HealthDataController: UIViewController {
             if(self.defaultGoal > 0){
                 UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
                 self.currentToGoal = self.defaultGoal - self.currentDistance
-                self.GoalLabel.text = "Distance Goal: \(String(self.defaultGoal)) m"
+                self.GoalLabel.text = "Your Daily Goal\n\(String(self.defaultGoal)) m"
                 if(self.currentToGoal > 0){
                     self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
                 }
@@ -200,7 +206,7 @@ class HealthDataController: UIViewController {
                 self.defaultGoal = self.dailyDistance
                 UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
 
-                self.GoalLabel.text = "Distance Goal: \(String(self.dailyDistance))"
+                self.GoalLabel.text = "Your Daily Goal\n\(String(self.dailyDistance))"
                 if(self.currentToDailyDistance > 0)
                 {
                     self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToDailyDistance)) m to reach your goal"
@@ -210,11 +216,11 @@ class HealthDataController: UIViewController {
                 }
             }
             
-            self.DailyDistanceLabel.text = "Daily Distance: \(String(self.dailyDistance)) m"
+            self.DailyDistanceLabel.text = "Daily Distance\n\(String(self.dailyDistance)) m"
 
             self.CurrentAcchievementLabel.text = "Today Distance\n\(String(self.currentDistance)) m"
                       
-            self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep)) steps"
+            self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep))"
         }
     }
     
@@ -239,18 +245,22 @@ class HealthDataController: UIViewController {
                     self.getCurrent = false
                     
                     completion()
+                    
+                    self.getUserHeight{
+                        self.HeightLabel.text = "Height\n\(self.height) m"
+                        self.dailyStep = self.getDailySteps(height: Double(self.height)!, dailyDistance: self.dailyDistance)
+                        self.DailyStepLabel.text = "Daily Steps\n\(String(self.dailyStep))"                    }
+                    
+                    self.getUserWeight{
+                        self.WeightLabel.text = "Weight\n\(self.weight) lbs"
+                    }
+                    
                    }
             
                     completion()
                }
             
-        getUserHeight{
-            self.HeightLabel.text = "Height\n\(self.height) m"
-        }
         
-        getUserWeight{
-            self.WeightLabel.text = "Weight\n\(self.weight) lbs"
-        }
     }
 
     //MARK: - Get Distance Data
@@ -362,6 +372,13 @@ class HealthDataController: UIViewController {
     
     //MARK: - Get Step Data
     /***************************************************************/
+    func getDailySteps(height : Double, dailyDistance : Int) -> Int{
+        var i = Double(5280 * 12 * Double(dailyDistance) * 0.000621371)
+        i = i / (height * 39.37 * 0.413)
+        
+        return Int(i)
+    }
+    
     func getTodaySteps(completion: @escaping (Double) -> Void)
     {
       let type = HKQuantityType.quantityType(forIdentifier: .stepCount)!
@@ -437,7 +454,7 @@ class HealthDataController: UIViewController {
                 
                 // Update the user interface.
                 DispatchQueue.main.async {
-                    let h : Double = Double(Int(NumberFormatter.localizedString(from: usersHeight as NSNumber, number: NumberFormatter.Style.none))!) as! Double
+                    let h : Double = Double(Int(NumberFormatter.localizedString(from: usersHeight as NSNumber, number: NumberFormatter.Style.none))!)
                     self.height = String(round(Double(h * 2.54))/100.00)
                     completion()
                 }
@@ -504,7 +521,7 @@ class HealthDataController: UIViewController {
                     UserDefaults.standard.set(senderVC.enterGoal.text!, forKey: "UserGoal")
                     defaultGoal = Int(senderVC.enterGoal.text!)!
                     currentToGoal = defaultGoal - currentDistance
-                    GoalLabel.text = "Distance Goal: \(String(senderVC.enterGoal.text!)) m"
+                    GoalLabel.text = "Your Daily Goal\n\(String(senderVC.enterGoal.text!)) m"
                      if(currentToGoal > 0){
                         CurrentToGoalLabel.text = "Keep going! You need \(String(currentToGoal)) m to reach your goal"
                     }

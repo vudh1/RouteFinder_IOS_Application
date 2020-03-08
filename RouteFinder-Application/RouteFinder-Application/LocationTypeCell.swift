@@ -21,6 +21,19 @@ class LocationTypeCell : UITableViewCell {
     
     @IBOutlet weak var HeartOutlet: UIButton!
     
+    @IBAction func choosePressed(_ sender: Any) {
+        if !isLiked {
+            HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
+            isLiked = true
+        }
+        else {
+            HeartOutlet.setImage(UIImage(systemName: "suit.heart"), for: .normal)
+            isLiked = false
+        }
+        
+        delegate?.didTapLike(isLiked: isLiked, cellIndex: cellIndex)
+    }
+    
     @IBAction func HeartPressed(_ sender: Any) {
         if !isLiked {
             HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
@@ -33,5 +46,7 @@ class LocationTypeCell : UITableViewCell {
         
         delegate?.didTapLike(isLiked: isLiked, cellIndex: cellIndex)
     }
+    
+    
     
 }

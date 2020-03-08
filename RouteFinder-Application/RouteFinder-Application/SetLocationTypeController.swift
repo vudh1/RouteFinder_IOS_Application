@@ -28,8 +28,9 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationTypeCell", for: indexPath) as! LocationTypeCell
         
         cell.delegate = self
-        
         cell.cellIndex = indexPath.row
+        cell.LocationTypeOutlet.layer.masksToBounds = true
+        cell.LocationTypeOutlet.layer.cornerRadius = 8.0
         
         if LOCATION_TYPE_LOVE[indexPath.row] {
             cell.HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
