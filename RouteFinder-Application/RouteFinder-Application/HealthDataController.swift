@@ -9,8 +9,52 @@
 import UIKit
 import HealthKit
 
-
 class HealthDataController: UIViewController {
+    let LOCATION_TYPE = [
+                            "aquarium",
+                            "art_gallery",
+                            "bakery",
+                            "bar",
+                            "bus_station",
+                            "book_store",
+                            "gas_station",
+                            "grocery_or_supermarket",
+                            "gym",
+                            "library",
+                            "movie_theater",
+                            "museum",
+                            "park",
+                            "post_office",
+                            "restaurant",
+                            "shopping_mall",
+                            "store",
+                            "tourist_attraction",
+                            "university",
+                            "zoo"]
+       
+       var LOCATION_TYPE_LOVE = [
+                           false,
+                           false,
+                           true,
+                           false,
+                           false,
+                           true,
+                           false,
+                           true,
+                           false,
+                           false,
+                           false,
+                           false,
+                           true,
+                           false,
+                           false,
+                           false,
+                           false,
+                           true,
+                           true,
+                           false]
+    
+    var locationTypes : [String] = []
     
     var dailyDistance : Int = 0 //health
     var defaultGoal : Int = 0 //defaultuser
@@ -34,68 +78,87 @@ class HealthDataController: UIViewController {
     @IBOutlet weak var GoalLabel: UILabel!
     @IBOutlet weak var CurrentStepsLabel: UILabel!
     
-    @IBOutlet weak var hideHealthInformation: UIButton!
-
     @IBOutlet weak var HeightLabel: UILabel!
     @IBOutlet weak var WeightLabel: UILabel!
     
     @IBOutlet weak var ChangeGoalOutlet: UIButton!
    
-
     @IBAction func ChangeGoalPressed(_ sender: Any) {
-        let changeGoalVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(identifier: "changGoalID") as! changeGoalController
+        let changeGoalVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(identifier: "changGoalID") as! ChangeGoalController
         self.addChild(changeGoalVC)
         changeGoalVC.view.frame = self.view.frame
         self.view.addSubview(changeGoalVC.view)
         changeGoalVC.changeGoalView.layer.masksToBounds = true
         changeGoalVC.changeGoalView.layer.cornerRadius = 8.0
-        changeGoalVC.currentGoal.text = "Current Goal\n\(String(defaultGoal))m"
+        changeGoalVC.currentGoal.text = "Change Your Goal"
+        changeGoalVC.enterGoal.text = String(defaultGoal)
+        
         changeGoalVC.didMove(toParent: self)
+    }
+    
+    @IBOutlet weak var Greeting: UILabel!
+      
+      @IBOutlet weak var GetLocationsOutlet: UIButton!
+
+      @IBAction func GetLocationsPressed(_ sender: Any) {
+          let changeGoalVC = UIStoryboard(name: "Main", bundle:nil).instantiateViewController(identifier: "enterDistanceID") as! SetDistanceController
+          self.addChild(changeGoalVC)
+          changeGoalVC.view.frame = self.view.frame
+          self.view.addSubview(changeGoalVC.view)
+          changeGoalVC.enterDistanceView.layer.masksToBounds = true
+          changeGoalVC.enterDistanceView.layer.cornerRadius = 8.0
+          
+          locationTypes = []
+          
+        
+          if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
+                 for i in 0...LOCATION_TYPE.count-1 {
+                 print(LOCATION_TYPE[i],x[i])
+                 if(x[i] == true){
+                     locationTypes.append(LOCATION_TYPE[i])
+                 }
+              }
+          }
+          
+          changeGoalVC.locationTypes = locationTypes
+          
+          changeGoalVC.CurrentGoal.text = "Adjust Your Distance"
+        changeGoalVC.desiredDistance.text = String(defaultGoal)
+          changeGoalVC.CurrentGoal.layer.masksToBounds = true
+          changeGoalVC.CurrentGoal.layer.cornerRadius = 8.0
+          changeGoalVC.didMove(toParent: self)
+      }
+    
+    @IBOutlet weak var ChangeLocationTypeOutlet: UIButton!
+    
+    @IBAction func ChangeLocationTypePressed(_ sender: Any) {
+        performSegue(withIdentifier: "goToSetLocationTypeController", sender: self)
     }
     
     /***************************************************************/
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        getHealthInformation{
-            if(self.defaultGoal > 0){
-                self.currentToGoal = self.defaultGoal - self.currentDistance
-                self.GoalLabel.text = "Distance Goal: \(String(self.defaultGoal)) m"
-                if(self.currentToGoal > 0){
-                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
-                }
-                else {
-                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
-                }
-            }
-            else {
-                self.defaultGoal = self.dailyDistance
-                
-                UserDefaults.standard.set(self.dailyDistance, forKey: "UserGoal")
-                
-                self.GoalLabel.text = "Distance Goal: \(String(self.dailyDistance))"
-                if(self.currentToDailyDistance > 0)
-                {
-                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToDailyDistance)) m to reach your goal"
-                }
-                else {
-                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
-                }
-                
-            }
-            
-            self.DailyDistanceLabel.text = "Daily Distance: \(String(self.dailyDistance)) m"
-
-            self.CurrentAcchievementLabel.text = "Today Distance\n\(String(self.currentDistance)) m"
-                      
-            self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep)) steps"
-                      
-            self.WeightLabel.text = "Weight\n\(self.weight) lbs"
-            self.HeightLabel.text = "Height\n\(self.height) m"
-
-            
+        
+        if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String] {
+            //LOCATION_TYPE = x
         }
+        else {
+            UserDefaults.standard.set(LOCATION_TYPE, forKey: "LOCATION_TYPE")
+        }
+        
+        if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
+            LOCATION_TYPE_LOVE = x
+        }
+        else {
+            UserDefaults.standard.set(LOCATION_TYPE_LOVE, forKey: "LOCATION_TYPE_LOVE")
+        }
+        
+        GetLocationsOutlet.layer.masksToBounds = true
+        GetLocationsOutlet.layer.cornerRadius = 8.0
+    
+        ChangeLocationTypeOutlet.layer.masksToBounds = true
+        ChangeLocationTypeOutlet.layer.cornerRadius = 8.0
         
         HeightLabel.layer.masksToBounds = true
         HeightLabel.layer.cornerRadius = 8.0
@@ -115,16 +178,50 @@ class HealthDataController: UIViewController {
         CurrentStepsLabel.layer.masksToBounds = true
         CurrentStepsLabel.layer.cornerRadius = 8.0
         
-        
         GoalLabel.layer.masksToBounds = true
         GoalLabel.layer.cornerRadius = 8.0
         
         ChangeGoalOutlet.layer.masksToBounds = true
         ChangeGoalOutlet.layer.cornerRadius = 8.0
         
-        hideHealthInformation.layer.masksToBounds = true
-        hideHealthInformation.layer.cornerRadius = 8.0
-        
+        getHealthInformation{
+            if(self.defaultGoal > 0){
+                UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
+                self.currentToGoal = self.defaultGoal - self.currentDistance
+                self.GoalLabel.text = "Distance Goal: \(String(self.defaultGoal)) m"
+                if(self.currentToGoal > 0){
+                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
+                }
+                else {
+                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
+                }
+            }
+            else {
+                self.defaultGoal = self.dailyDistance
+                UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
+
+                self.GoalLabel.text = "Distance Goal: \(String(self.dailyDistance))"
+                if(self.currentToDailyDistance > 0)
+                {
+                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToDailyDistance)) m to reach your goal"
+                }
+                else {
+                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
+                }
+            }
+            
+            self.DailyDistanceLabel.text = "Daily Distance: \(String(self.dailyDistance)) m"
+
+            self.CurrentAcchievementLabel.text = "Today Distance\n\(String(self.currentDistance)) m"
+                      
+            self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep)) steps"
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let x = UserDefaults.standard.object(forKey: "UserGoal") as? String {
+            defaultGoal = Int(x)!
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -148,15 +245,12 @@ class HealthDataController: UIViewController {
                }
             
         getUserHeight{
-            
+            self.HeightLabel.text = "Height\n\(self.height) m"
         }
         
         getUserWeight{
-            
+            self.WeightLabel.text = "Weight\n\(self.weight) lbs"
         }
-             
-       
-        
     }
 
     //MARK: - Get Distance Data
@@ -386,20 +480,36 @@ class HealthDataController: UIViewController {
         }
     }
     
+    
+    //MARK: - Segue
+    /***************************************************************/
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         if segue.identifier == "goToHealthDataController"{
+                   let destinationVC = segue.destination as! HealthDataController
+                   
+                   destinationVC.defaultGoal = defaultGoal
+               }
+    }
+
+    @IBAction func unwindToHealthDataControllerMap(_sender : UIStoryboardSegue){
+    }
+
+    
     @IBAction func unwindToHealthDataControllerUpdate(_sender : UIStoryboardSegue){
         
-        if _sender.source is changeGoalController{
-            if let senderVC = _sender.source as? changeGoalController{
+        if _sender.source is ChangeGoalController{
+            if let senderVC = _sender.source as? ChangeGoalController{
                 if senderVC.enterGoal.text! != ""{
                     UserDefaults.standard.set(senderVC.enterGoal.text!, forKey: "UserGoal")
                     defaultGoal = Int(senderVC.enterGoal.text!)!
                     currentToGoal = defaultGoal - currentDistance
-                    self.GoalLabel.text = "Distance Goal: \(String(senderVC.enterGoal.text!)) m"
-                     if(self.currentToGoal > 0){
-                        self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
+                    GoalLabel.text = "Distance Goal: \(String(senderVC.enterGoal.text!)) m"
+                     if(currentToGoal > 0){
+                        CurrentToGoalLabel.text = "Keep going! You need \(String(currentToGoal)) m to reach your goal"
                     }
                     else {
-                        self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
+                        CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
                     }
                 }
                 
@@ -410,8 +520,8 @@ class HealthDataController: UIViewController {
     
     @IBAction func unwindToHealthDataControllerCancel(_sender : UIStoryboardSegue){
            
-           if _sender.source is changeGoalController{
-               if let senderVC = _sender.source as? changeGoalController{
+           if _sender.source is ChangeGoalController{
+               if let senderVC = _sender.source as? ChangeGoalController{
                   senderVC.view.removeFromSuperview()
                }
            }
@@ -447,64 +557,5 @@ extension HKHealthStore {
         self.execute(query)
     }
     
-}
-
-class changeGoalController : UIViewController, UITextFieldDelegate{
-    
-    let MAX_DIGITS = 4
-
-    @IBOutlet weak var changeGoalView: UIView!
-    
-    @IBOutlet weak var currentGoal: UILabel!
-    
-    @IBOutlet weak var enterGoal: UITextField!
-    
-    @IBOutlet weak var updateOutlet: UIButton!
-
-    @IBOutlet weak var cancelOutlet: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-            
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        self.view.layer.masksToBounds = true
-        self.view.layer.cornerRadius = 8.0
-        currentGoal.layer.masksToBounds = true
-        currentGoal.layer.cornerRadius = 8.0
-                
-        enterGoal.layer.masksToBounds = true
-        enterGoal.layer.cornerRadius = 8.0
-        
-        updateOutlet.layer.masksToBounds = true
-        updateOutlet.layer.cornerRadius = 8.0
-           
-        cancelOutlet.layer.masksToBounds = true
-        cancelOutlet.layer.cornerRadius = 8.0
-       }
-
-    override func didReceiveMemoryWarning() {
-            super.didReceiveMemoryWarning()
-    }
-    
-    
-    //MARK: - TextField
-    /***************************************************************/
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if  range.location >= MAX_DIGITS {
-            return false //limit only 4 digits can be entered
-        }
-        
-        //limit only numeric letters can be entered
-        let compSepByCharInSet = string.components(separatedBy: NSCharacterSet(charactersIn:"0123456789").inverted)
-        let numberFiltered = compSepByCharInSet.joined(separator: "")
-        
-        return string == numberFiltered
-    }
-        
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-       
 }
 

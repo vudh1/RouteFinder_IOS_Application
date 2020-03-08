@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class HealthController: UIViewController, UITextFieldDelegate {
+class SetDistanceController: UIViewController, UITextFieldDelegate {
     
     var reccomendGoal : String = ""
     
@@ -19,7 +19,7 @@ class HealthController: UIViewController, UITextFieldDelegate {
     
     let MAX_DIGITS = 4
     
-    let locationTypes = ["library","cafe","park","shopping_mall","tourist_attraction"]
+    var locationTypes : [String] = []
     
     @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
@@ -55,13 +55,13 @@ class HealthController: UIViewController, UITextFieldDelegate {
             }
         }
         
-        else if segue.identifier == "goToHealthDataController"{
-            let destinationVC = segue.destination as! HealthDataController
-            
-            destinationVC.dailyDistance = Int(desiredDistance.text!)!
-            
-            print("return back to Health Data Controller")
-        }
+//        else if segue.identifier == "goToHealthDataController"{
+//            let destinationVC = segue.destination as! HealthDataController
+//            
+//            destinationVC.dailyDistance = Int(desiredDistance.text!)!
+//            
+//            print("return back to Health Data Controller")
+//        }
     }
 
     @IBAction func unwindToHealthController(_sender : UIStoryboardSegue){    }
@@ -89,7 +89,7 @@ class HealthController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         if let x = UserDefaults.standard.object(forKey: "UserGoal") as? String {
             reccomendGoal = x
-            CurrentGoal.text = "Current Goal\n\(String(reccomendGoal))"
+            desiredDistance.text = String(reccomendGoal)
         }
     }
     

@@ -30,7 +30,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let TRAVEL_MODE = "walking"
     let MAX_CELL = 20
     let MAX_DIRECTION_SEARCH = 50
-    //let LOCATION_TYPE = ["library","amusement_park","aquarium","art_gallery","bakery","bar","book_store","cafe","grocery_or_supermarket","gym","movie_theater","museum","park","restaurant","shopping_mall","tourist_attraction","zoo"]//add more location_type
+   
     var LOCATION_TYPE  : [String] = []
     
     var travelGoalDistance = 0
@@ -113,21 +113,24 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             
             let latitude = String(location.coordinate.latitude)
             let longitude = String(location.coordinate.longitude)
-                        
-            for i in 0...LOCATION_TYPE.count-1{
-                let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_API_ID]
-                getLocationData(Url: SEARCH_API_URL, parameters: originParams){
-                    //only getDirection after searching nearbyLocation of all types
-                    print("self.updateLocationDataCount : \(self.updateLocationDataCount)")
-                    print("self.LOCATION_TYPE.count: \(self.LOCATION_TYPE.count)")
-                    if(self.getLocationDataCount == self.LOCATION_TYPE.count && self.updateLocationDataCount == self.LOCATION_TYPE.count){
-                        print("getDirectionData After Loop done")
-                        self.getDirectionData(url: self.DIRECTION_API_URL, originParameters: originParams, LocationDataModel : self.locationDataModel){
-                            self.tableView.reloadData()
+            
+            if LOCATION_TYPE.count > 0 {
+                for i in 0...LOCATION_TYPE.count-1{
+                    let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_API_ID]
+                    getLocationData(Url: SEARCH_API_URL, parameters: originParams){
+                        //only getDirection after searching nearbyLocation of all types
+                        print("self.updateLocationDataCount : \(self.updateLocationDataCount)")
+                        print("self.LOCATION_TYPE.count: \(self.LOCATION_TYPE.count)")
+                        if(self.getLocationDataCount == self.LOCATION_TYPE.count && self.updateLocationDataCount == self.LOCATION_TYPE.count){
+                            print("getDirectionData After Loop done")
+                            self.getDirectionData(url: self.DIRECTION_API_URL, originParameters: originParams, LocationDataModel : self.locationDataModel){
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
             }
+
         }
         print("DoneLocationManager")
     }

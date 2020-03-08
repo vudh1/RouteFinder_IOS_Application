@@ -70,23 +70,6 @@ class LocationDirectionModel {
                 locationDirectionList[j+1] = selected
             }
         
-        //MARK: - Change this case later when figure out the preferences of user
-        /***************************************************************/
-
-        case 2: //sort by type references
-            for i in 1...locationDirectionList.count-1{
-                var j : Int = i-1
-                let selected = locationDirectionList[i]
-                
-                let loc = binarySearch(list: locationDirectionList, item: selected, low: 0, high: j, desiredDistance: 0)
-                
-                while j >= loc {
-                    locationDirectionList[j+1]=locationDirectionList[j]
-                    j-=1
-                }
-                
-                locationDirectionList[j+1] = selected
-            }
         default:
             return
         }
