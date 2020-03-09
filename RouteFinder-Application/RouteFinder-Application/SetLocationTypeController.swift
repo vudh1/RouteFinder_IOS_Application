@@ -45,9 +45,6 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
         return cell
     }
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
