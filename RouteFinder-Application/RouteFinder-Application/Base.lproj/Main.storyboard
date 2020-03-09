@@ -562,8 +562,8 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.96470588235294119" green="0.89803921568627454" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="tintColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qOl-6V-vmJ" firstAttribute="leading" secondItem="v1f-eV-YIo" secondAttribute="leading" constant="67" id="15Y-KR-2Zf"/>
                             <constraint firstItem="s9W-2X-pYT" firstAttribute="leading" secondItem="pR7-vF-ctX" secondAttribute="trailing" constant="12" id="3zg-x1-Irs"/>
@@ -848,8 +848,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.95686274509803915" green="0.80784313725490198" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="2Lo-Hs-5ra" firstAttribute="trailing" secondItem="ZHq-mh-Fm8" secondAttribute="trailing" constant="20" id="8Bc-d1-NsH"/>
                             <constraint firstItem="dmZ-1T-asB" firstAttribute="top" secondItem="ZHq-mh-Fm8" secondAttribute="bottom" constant="8" id="91q-wX-e23"/>
@@ -964,6 +964,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ouz-er-wdW" firstAttribute="trailing" secondItem="e84-vA-xZl" secondAttribute="trailing" id="LDd-tf-QO0"/>
                             <constraint firstItem="ouz-er-wdW" firstAttribute="bottom" secondItem="e84-vA-xZl" secondAttribute="bottom" id="LIc-yM-tqf"/>
