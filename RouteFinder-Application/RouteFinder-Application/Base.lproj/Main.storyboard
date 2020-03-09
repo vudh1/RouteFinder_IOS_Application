@@ -209,7 +209,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="49u-qW-aKM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-603" y="137"/>
+            <point key="canvasLocation" x="-1504" y="893"/>
         </scene>
         <!--Set Distance Controller-->
         <scene sceneID="Qd6-G7-wdW">
@@ -303,7 +303,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="tintColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="dFs-6f-aRN" firstAttribute="bottom" secondItem="16m-Wd-v2c" secondAttribute="bottom" constant="214" id="YQ0-HP-VmJ"/>
                             <constraint firstItem="16m-Wd-v2c" firstAttribute="leading" secondItem="dFs-6f-aRN" secondAttribute="leading" constant="69" id="Ypr-9h-AOk"/>
@@ -324,7 +324,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UzE-Pq-76j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1401" y="137"/>
+            <point key="canvasLocation" x="-1504" y="137"/>
         </scene>
         <!--Map Controller-->
         <scene sceneID="ufK-uw-1bc">
@@ -397,7 +397,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kQr-vn-Qf5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="H4M-67-xBD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="157" y="137"/>
+            <point key="canvasLocation" x="-655" y="893"/>
         </scene>
         <!--Health Data Controller-->
         <scene sceneID="sjn-CP-BbI">
@@ -563,6 +563,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588235294119" green="0.89803921568627454" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="qOl-6V-vmJ" firstAttribute="leading" secondItem="v1f-eV-YIo" secondAttribute="leading" constant="67" id="15Y-KR-2Zf"/>
                             <constraint firstItem="s9W-2X-pYT" firstAttribute="leading" secondItem="pR7-vF-ctX" secondAttribute="trailing" constant="12" id="3zg-x1-Irs"/>
@@ -621,7 +622,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrI-BH-tid" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2329" y="137"/>
+            <point key="canvasLocation" x="-2330" y="137"/>
         </scene>
         <!--Change Goal Controller-->
         <scene sceneID="0FI-tY-6NJ">
@@ -727,7 +728,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="tintColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="Ioz-nW-SmX" secondAttribute="bottom" constant="214" id="78j-EH-eyZ"/>
                             <constraint firstItem="Ioz-nW-SmX" firstAttribute="leading" secondItem="3be-Pt-uFs" secondAttribute="leadingMargin" constant="49" id="YBj-aF-lR8"/>
@@ -747,7 +748,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9In-FL-jfA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="WpL-6T-yH2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2330" y="875"/>
+            <point key="canvasLocation" x="-2330" y="-585"/>
         </scene>
         <!--Set Location Type Controller-->
         <scene sceneID="RO4-fn-R9A">
@@ -867,7 +868,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocL-bw-KSi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2330" y="-575"/>
+            <point key="canvasLocation" x="-3088" y="894"/>
         </scene>
         <!--Location History Controller-->
         <scene sceneID="fX4-Ga-ZHO">
@@ -981,7 +982,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uir-Xo-hva" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1401" y="-576"/>
+            <point key="canvasLocation" x="-2330" y="893"/>
         </scene>
     </scenes>
     <resources>

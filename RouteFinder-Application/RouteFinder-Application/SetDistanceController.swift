@@ -67,7 +67,7 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.55)
 
         desiredDistance.layer.masksToBounds = true
         desiredDistance.layer.cornerRadius = 8.0

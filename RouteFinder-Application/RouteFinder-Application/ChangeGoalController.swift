@@ -25,7 +25,7 @@ class ChangeGoalController : UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.55)
        
         currentGoal.layer.masksToBounds = true
         currentGoal.layer.cornerRadius = 8.0
