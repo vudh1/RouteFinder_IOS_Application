@@ -537,7 +537,7 @@
                                 <rect key="frame" x="117" y="622" width="85.333333333333314" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" backgroundImage="paperclip.circle.fill" catalog="system"/>
+                                <state key="normal" backgroundImage="clock.fill" catalog="system"/>
                                 <connections>
                                     <segue destination="iPU-qJ-0Ng" kind="show" identifier="goToLocationHistoryController" id="TXh-5m-Vyx"/>
                                 </connections>
@@ -975,9 +975,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="clock.fill" catalog="system" width="64" height="60"/>
         <image name="heart.circle.fill" catalog="system" width="64" height="60"/>
         <image name="magnifyingglass.circle.fill" catalog="system" width="64" height="60"/>
-        <image name="paperclip.circle.fill" catalog="system" width="64" height="60"/>
         <image name="pencil.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>
