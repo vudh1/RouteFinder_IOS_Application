@@ -40,6 +40,8 @@ class ChangeGoalController : UIViewController, UITextFieldDelegate{
         
         DefaultOutlet.layer.masksToBounds = true
         DefaultOutlet.layer.cornerRadius = 8.0
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
        }
 
     override func didReceiveMemoryWarning() {

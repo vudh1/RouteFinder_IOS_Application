@@ -12,7 +12,7 @@ import HealthKit
 let LOVE_SCORE = 5
 let TAP_SCORE = 1
 let REFRESH_TIME = 5
-let MAX_DIGITS = 4
+let MAX_DIGITS = 5
 let MAX_RADIUS = 1000
 let MAX_DIFF_FROM_DISTANCE = 500
 let MIN_DISTANCE = 1
@@ -64,33 +64,36 @@ let DEFAULT_RATING = [
 "university": 0,
 "zoo": 0]
 
+let DEFAULT_LOVE_STATUS = [
+                          false,
+                          false,
+                          true,
+                          false,
+                          false,
+                          true,
+                          false,
+                          true,
+                          false,
+                          false,
+                          false,
+                          false,
+                          true,
+                          false,
+                          false,
+                          false,
+                          false,
+                          true,
+                          true,
+                          false]
+
+
 class HealthDataController: UIViewController {
     
     var rating : [String: Int] = [:]
     
     var potentialPlaces : [String : Data] = [:]
 
-    var loveStatus = [
-                           false,
-                           false,
-                           true,
-                           false,
-                           false,
-                           true,
-                           false,
-                           true,
-                           false,
-                           false,
-                           false,
-                           false,
-                           true,
-                           false,
-                           false,
-                           false,
-                           false,
-                           true,
-                           true,
-                           false]
+    var loveStatus : [Bool] = DEFAULT_LOVE_STATUS
     
     var locationTypes : [String] = []
     
@@ -291,7 +294,7 @@ class HealthDataController: UIViewController {
                  loveStatus = x
              }
              else {
-                 UserDefaults.standard.set(loveStatus, forKey: "LOCATION_TYPE_LOVE")
+                 UserDefaults.standard.set(DEFAULT_LOVE_STATUS, forKey: "LOCATION_TYPE_LOVE")
              }
              
              rating = DEFAULT_RATING

@@ -77,6 +77,8 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
         
         cancelOutlet.layer.masksToBounds = true
         cancelOutlet.layer.cornerRadius = 8.0
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
     }
     
     override func didReceiveMemoryWarning() {

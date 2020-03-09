@@ -633,7 +633,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ioz-nW-SmX">
-                                <rect key="frame" x="69" y="214" width="277" height="346"/>
+                                <rect key="frame" x="69" y="195" width="277" height="346"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7SP-lw-cbK">
                                         <rect key="frame" x="27" y="224" width="110" height="46"/>
@@ -736,9 +736,9 @@
                         </subviews>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="Ioz-nW-SmX" secondAttribute="bottom" constant="176" id="78j-EH-eyZ"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Ioz-nW-SmX" secondAttribute="bottom" constant="195" id="78j-EH-eyZ"/>
                             <constraint firstItem="Ioz-nW-SmX" firstAttribute="leading" secondItem="3be-Pt-uFs" secondAttribute="leadingMargin" constant="49" id="YBj-aF-lR8"/>
-                            <constraint firstItem="Ioz-nW-SmX" firstAttribute="top" secondItem="3be-Pt-uFs" secondAttribute="topMargin" constant="214" id="aby-iI-DJZ"/>
+                            <constraint firstItem="Ioz-nW-SmX" firstAttribute="top" secondItem="3be-Pt-uFs" secondAttribute="topMargin" constant="195" id="aby-iI-DJZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ioz-nW-SmX" secondAttribute="trailing" constant="48" id="bAa-Cs-xsP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7fj-IZ-M57"/>
