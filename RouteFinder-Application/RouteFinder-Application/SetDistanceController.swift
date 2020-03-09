@@ -81,13 +81,6 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
         cancelOutlet.layer.cornerRadius = 8.0
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let x = UserDefaults.standard.object(forKey: "UserGoal") as? String {
-            reccomendGoal = x
-            desiredDistance.text = String(reccomendGoal)
-        }
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

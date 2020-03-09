@@ -55,7 +55,8 @@ class HealthDataController: UIViewController {
         "zoo": 0]
     
     var RATING : [String: Int] = [:]
-       
+    var POTENTIAL_PLACES : [String : [String]] = [:]
+
     var LOCATION_TYPE_LOVE = [
                            false,
                            false,
@@ -80,8 +81,8 @@ class HealthDataController: UIViewController {
     
     let LOVE_SCORE = 5
     let TAP_SCORE = 1
+    let REFRESH_TIME = 10
     
-    var POTENTIAL_PLACES : [String : [String]] = [:]
     
     var locationTypes : [String] = []
     
@@ -97,7 +98,8 @@ class HealthDataController: UIViewController {
     var weight : String = ""
     
     let healthStore = HKHealthStore()
-    
+    var timer = Timer()
+
     var getToday = false
     var getCurrent = false
     
@@ -156,7 +158,7 @@ class HealthDataController: UIViewController {
           changeGoalVC.ratingTypes = RATING
         
           changeGoalVC.CurrentGoal.text = "Enter Your Distance"
-          changeGoalVC.desiredDistance.text = String(defaultGoal)
+          changeGoalVC.desiredDistance.text = String(currentToGoal)
           changeGoalVC.CurrentGoal.layer.masksToBounds = true
           changeGoalVC.CurrentGoal.layer.cornerRadius = 8.0
           changeGoalVC.didMove(toParent: self)
@@ -172,74 +174,11 @@ class HealthDataController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        getUserDefault()
-
-        GetLocationsOutlet.layer.masksToBounds = true
-        GetLocationsOutlet.layer.cornerRadius = 8.0
-    
-        ChangeLocationTypeOutlet.layer.masksToBounds = true
-        ChangeLocationTypeOutlet.layer.cornerRadius = 8.0
+        setOutletLayer()
         
-        HeightLabel.layer.masksToBounds = true
-        HeightLabel.layer.cornerRadius = 8.0
-             
-        WeightLabel.layer.masksToBounds = true
-        WeightLabel.layer.cornerRadius = 8.0
+        updateHeathInformation()
         
-        DailyDistanceLabel.layer.masksToBounds = true
-        DailyDistanceLabel.layer.cornerRadius = 8.0
-        
-        CurrentAcchievementLabel.layer.masksToBounds = true
-        CurrentAcchievementLabel.layer.cornerRadius = 8.0
-        
-        CurrentToGoalLabel.layer.masksToBounds = true
-        CurrentToGoalLabel.layer.cornerRadius = 8.0
-        
-        DailyStepLabel.layer.masksToBounds = true
-        DailyStepLabel.layer.cornerRadius = 8.0
-
-        CurrentStepsLabel.layer.masksToBounds = true
-        CurrentStepsLabel.layer.cornerRadius = 8.0
-        
-        GoalLabel.layer.masksToBounds = true
-        GoalLabel.layer.cornerRadius = 8.0
-        
-        ChangeGoalOutlet.layer.masksToBounds = true
-        ChangeGoalOutlet.layer.cornerRadius = 8.0
-        
-        getHealthInformation{
-            if(self.defaultGoal > 0){
-                UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
-                self.currentToGoal = self.defaultGoal - self.currentDistance
-                self.GoalLabel.text = "Your Daily Goal\n\(String(self.defaultGoal)) m"
-                if(self.currentToGoal > 0){
-                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
-                }
-                else {
-                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
-                }
-            }
-            else {
-                self.defaultGoal = self.dailyDistance
-                UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
-
-                self.GoalLabel.text = "Your Daily Goal\n\(String(self.dailyDistance))"
-                if(self.currentToDailyDistance > 0)
-                {
-                    self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToDailyDistance)) m to reach your goal"
-                }
-                else {
-                    self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
-                }
-            }
-            
-            self.DailyDistanceLabel.text = "Daily Distance\n\(String(self.dailyDistance)) m"
-
-            self.CurrentAcchievementLabel.text = "Today Distance\n\(String(self.currentDistance)) m"
-                      
-            self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep))"
-        }
+        scheduledTimerWithTimeInterval()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -250,6 +189,86 @@ class HealthDataController: UIViewController {
 
     override func didReceiveMemoryWarning() {
            super.didReceiveMemoryWarning()
+    }
+
+    func scheduledTimerWithTimeInterval(){
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(REFRESH_TIME), target: self, selector: Selector("updateHeathInformation"), userInfo: nil, repeats: true)
+    }
+    
+    func setOutletLayer(){
+            GetLocationsOutlet.layer.masksToBounds = true
+            GetLocationsOutlet.layer.cornerRadius = 8.0
+        
+            ChangeLocationTypeOutlet.layer.masksToBounds = true
+            ChangeLocationTypeOutlet.layer.cornerRadius = 8.0
+            
+            HeightLabel.layer.masksToBounds = true
+            HeightLabel.layer.cornerRadius = 8.0
+                 
+            WeightLabel.layer.masksToBounds = true
+            WeightLabel.layer.cornerRadius = 8.0
+            
+            DailyDistanceLabel.layer.masksToBounds = true
+            DailyDistanceLabel.layer.cornerRadius = 8.0
+            
+            CurrentAcchievementLabel.layer.masksToBounds = true
+            CurrentAcchievementLabel.layer.cornerRadius = 8.0
+            
+            CurrentToGoalLabel.layer.masksToBounds = true
+            CurrentToGoalLabel.layer.cornerRadius = 8.0
+            
+            DailyStepLabel.layer.masksToBounds = true
+            DailyStepLabel.layer.cornerRadius = 8.0
+
+            CurrentStepsLabel.layer.masksToBounds = true
+            CurrentStepsLabel.layer.cornerRadius = 8.0
+            
+            GoalLabel.layer.masksToBounds = true
+            GoalLabel.layer.cornerRadius = 8.0
+            
+            ChangeGoalOutlet.layer.masksToBounds = true
+            ChangeGoalOutlet.layer.cornerRadius = 8.0
+            
+    }
+    
+    @objc func updateHeathInformation(){
+            print("Run now")
+        
+           getUserDefault()
+           
+           getHealthInformation{
+               if(self.defaultGoal > 0){
+                   UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
+                   self.currentToGoal = self.defaultGoal - self.currentDistance
+                   self.GoalLabel.text = "Your Daily Goal\n\(String(self.defaultGoal)) m"
+                   if(self.currentToGoal > 0){
+                       self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToGoal)) m to reach your goal"
+                   }
+                   else {
+                       self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
+                   }
+               }
+               else {
+                   self.defaultGoal = self.dailyDistance
+                   UserDefaults.standard.set(String(self.defaultGoal), forKey: "UserGoal")
+
+                   self.GoalLabel.text = "Your Daily Goal\n\(String(self.dailyDistance))"
+                   if(self.currentToDailyDistance > 0)
+                   {
+                       self.CurrentToGoalLabel.text = "Keep going! You need \(String(self.currentToDailyDistance)) m to reach your goal"
+                   }
+                   else {
+                       self.CurrentToGoalLabel.text = "Congratulations! You reach your goal for the day."
+                   }
+               }
+               
+               self.DailyDistanceLabel.text = "Daily Distance\n\(String(self.dailyDistance)) m"
+
+               self.CurrentAcchievementLabel.text = "Today Distance\n\(String(self.currentDistance)) m"
+                         
+               self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep))"
+           }
     }
     
     
