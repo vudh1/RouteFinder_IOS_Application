@@ -89,13 +89,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         })
     }
     
-//    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-//        
-//        mapView.camera.heading = newHeading.magneticHeading
-//        mapView.setCamera(mapView.camera, animated: true)
-//    }
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

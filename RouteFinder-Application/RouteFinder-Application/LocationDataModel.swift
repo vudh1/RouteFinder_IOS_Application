@@ -15,13 +15,17 @@ class Location {
     var latitude : Double = 0
     var longitude : Double = 0
     var placeID : String = ""
+    var types : [String] = []
+    var rating : Int = 0
     
-    init(name : String, vicinity : String, latitude : Double, longitude : Double, placeID : String){
+    init(name : String, vicinity : String, latitude : Double, longitude : Double, placeID : String, types : [String], rating : Int){
         self.name = name
         self.vicinity = vicinity
         self.latitude = latitude
         self.longitude = longitude
         self.placeID = placeID
+        self.types = types
+        self.rating = rating
     }
 }
 

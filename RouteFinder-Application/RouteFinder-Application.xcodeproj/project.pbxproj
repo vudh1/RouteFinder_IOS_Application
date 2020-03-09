@@ -22,6 +22,8 @@
 		8069B1BD2414F4AC00C61DF0 /* ChangeGoalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8069B1BC2414F4AC00C61DF0 /* ChangeGoalController.swift */; };
 		8069B1BF2414F59500C61DF0 /* SetLocationTypeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8069B1BE2414F59500C61DF0 /* SetLocationTypeController.swift */; };
 		8069B1C1241509FA00C61DF0 /* LocationTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8069B1C0241509FA00C61DF0 /* LocationTypeCell.swift */; };
+		8069B1C32415D82A00C61DF0 /* LocationHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8069B1C22415D82A00C61DF0 /* LocationHistoryController.swift */; };
+		8069B1C52415D89B00C61DF0 /* PotentialLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8069B1C42415D89B00C61DF0 /* PotentialLocationCell.swift */; };
 		80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9723FA7723007D07D1 /* LocationCell.swift */; };
 		80CA3C9E23FD3437007D07D1 /* SetDistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3C9D23FD3437007D07D1 /* SetDistanceController.swift */; };
 		80CA3CA123FDD5E0007D07D1 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80CA3CA023FDD5E0007D07D1 /* HealthKit.framework */; };
@@ -59,6 +61,8 @@
 		8069B1BC2414F4AC00C61DF0 /* ChangeGoalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeGoalController.swift; sourceTree = "<group>"; };
 		8069B1BE2414F59500C61DF0 /* SetLocationTypeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetLocationTypeController.swift; sourceTree = "<group>"; };
 		8069B1C0241509FA00C61DF0 /* LocationTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTypeCell.swift; sourceTree = "<group>"; };
+		8069B1C22415D82A00C61DF0 /* LocationHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHistoryController.swift; sourceTree = "<group>"; };
+		8069B1C42415D89B00C61DF0 /* PotentialLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotentialLocationCell.swift; sourceTree = "<group>"; };
 		80CA3C7223FA343E007D07D1 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C7623FA343E007D07D1 /* SVProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CA3C7823FA343E007D07D1 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,8 @@
 				8069B1BC2414F4AC00C61DF0 /* ChangeGoalController.swift */,
 				8069B1BE2414F59500C61DF0 /* SetLocationTypeController.swift */,
 				8069B1C0241509FA00C61DF0 /* LocationTypeCell.swift */,
+				8069B1C22415D82A00C61DF0 /* LocationHistoryController.swift */,
+				8069B1C42415D89B00C61DF0 /* PotentialLocationCell.swift */,
 				80CA3C9D23FD3437007D07D1 /* SetDistanceController.swift */,
 				80511B3623F4A616005DA155 /* NavigationController.swift */,
 				8041253024007F8100BA4FB7 /* MapController.swift */,
@@ -267,10 +273,12 @@
 			files = (
 				8041253124007F8100BA4FB7 /* MapController.swift in Sources */,
 				80CA3C9823FA7723007D07D1 /* LocationCell.swift in Sources */,
+				8069B1C32415D82A00C61DF0 /* LocationHistoryController.swift in Sources */,
 				80511B4B23F60451005DA155 /* LocationDirectionModel.swift in Sources */,
 				8069B1BD2414F4AC00C61DF0 /* ChangeGoalController.swift in Sources */,
 				80CA3C9E23FD3437007D07D1 /* SetDistanceController.swift in Sources */,
 				8069B1BF2414F59500C61DF0 /* SetLocationTypeController.swift in Sources */,
+				8069B1C52415D89B00C61DF0 /* PotentialLocationCell.swift in Sources */,
 				8069B1C1241509FA00C61DF0 /* LocationTypeCell.swift in Sources */,
 				80511B3723F4A616005DA155 /* NavigationController.swift in Sources */,
 				80511B4723F5CD62005DA155 /* LocationDataModel.swift in Sources */,

@@ -20,7 +20,6 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
     @IBOutlet weak var tableView: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("LOCATION_TYPE_LOVE: \(LOCATION_TYPE_LOVE.count)")
         return LOCATION_TYPE.count
     }
     

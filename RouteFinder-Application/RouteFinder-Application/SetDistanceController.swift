@@ -21,6 +21,8 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
     
     var locationTypes : [String] = []
     
+    var ratingTypes : [String : Int] = [:]
+    
     @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
     @IBOutlet weak var searchLocationsOutlet: UIButton! //outlet of Search Location Button
@@ -46,6 +48,7 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
             let destinationVC = segue.destination as! NavigationController
             
             destinationVC.LOCATION_TYPE = locationTypes
+            destinationVC.RATING = ratingTypes
             
             if(desiredDistance.text!.isEmpty){
                 destinationVC.desiredDistanceFromHealthController = "0"
@@ -54,14 +57,6 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
                 destinationVC.desiredDistanceFromHealthController = desiredDistance.text!
             }
         }
-        
-//        else if segue.identifier == "goToHealthDataController"{
-//            let destinationVC = segue.destination as! HealthDataController
-//            
-//            destinationVC.dailyDistance = Int(desiredDistance.text!)!
-//            
-//            print("return back to Health Data Controller")
-//        }
     }
 
     @IBAction func unwindToHealthController(_sender : UIStoryboardSegue){    }

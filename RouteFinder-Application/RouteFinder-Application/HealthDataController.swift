@@ -31,8 +31,32 @@ class HealthDataController: UIViewController {
                             "tourist_attraction",
                             "university",
                             "zoo"]
+    
+    let DEFAULT_RATING = [
+        "aquarium" : 0 ,
+        "art_gallery" : 0,
+        "bakery" : 0,
+        "bar" : 0,
+        "bus_station" : 0,
+        "book_store" : 0,
+        "gas_station": 0,
+        "grocery_or_supermarket": 0,
+        "gym": 0,
+        "library": 0,
+        "movie_theater": 0,
+        "museum": 0,
+        "park": 0,
+        "post_office": 0,
+        "restaurant": 0,
+        "shopping_mall": 0,
+        "store": 0,
+        "tourist_attraction": 0,
+        "university": 0,
+        "zoo": 0]
+    
+    var RATING : [String: Int] = [:]
        
-       var LOCATION_TYPE_LOVE = [
+    var LOCATION_TYPE_LOVE = [
                            false,
                            false,
                            true,
@@ -53,6 +77,11 @@ class HealthDataController: UIViewController {
                            true,
                            true,
                            false]
+    
+    let LOVE_SCORE = 5
+    let TAP_SCORE = 1
+    
+    var POTENTIAL_PLACES : [String : [String]] = [:]
     
     var locationTypes : [String] = []
     
@@ -112,21 +141,22 @@ class HealthDataController: UIViewController {
           changeGoalVC.enterDistanceView.layer.cornerRadius = 8.0
           
           locationTypes = []
-          
         
           if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
                  for i in 0...LOCATION_TYPE.count-1 {
-                 print(LOCATION_TYPE[i],x[i])
                  if(x[i] == true){
                      locationTypes.append(LOCATION_TYPE[i])
                  }
               }
           }
-          
+
           changeGoalVC.locationTypes = locationTypes
-          
+        
+          updateLocationRating()
+          changeGoalVC.ratingTypes = RATING
+        
           changeGoalVC.CurrentGoal.text = "Adjust Your Distance"
-        changeGoalVC.desiredDistance.text = String(defaultGoal)
+          changeGoalVC.desiredDistance.text = String(defaultGoal)
           changeGoalVC.CurrentGoal.layer.masksToBounds = true
           changeGoalVC.CurrentGoal.layer.cornerRadius = 8.0
           changeGoalVC.didMove(toParent: self)
@@ -142,21 +172,9 @@ class HealthDataController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if (UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String]) != nil {
-            //LOCATION_TYPE = x
-        }
-        else {
-            UserDefaults.standard.set(LOCATION_TYPE, forKey: "LOCATION_TYPE")
-        }
-        
-        if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
-            LOCATION_TYPE_LOVE = x
-        }
-        else {
-            UserDefaults.standard.set(LOCATION_TYPE_LOVE, forKey: "LOCATION_TYPE_LOVE")
-        }
-        
+     
+        getUserDefault()
+
         GetLocationsOutlet.layer.masksToBounds = true
         GetLocationsOutlet.layer.cornerRadius = 8.0
     
@@ -233,6 +251,59 @@ class HealthDataController: UIViewController {
     override func didReceiveMemoryWarning() {
            super.didReceiveMemoryWarning()
     }
+    
+    
+    //MARK: - Get User Default Setting and Get Location Rating
+    /***************************************************************/
+
+    func getUserDefault(){
+        
+             if (UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String]) != nil {
+                 //LOCATION_TYPE = x
+             }
+             else {
+                 UserDefaults.standard.set(LOCATION_TYPE, forKey: "LOCATION_TYPE")
+             }
+             
+             if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
+                 LOCATION_TYPE_LOVE = x
+             }
+             else {
+                 UserDefaults.standard.set(LOCATION_TYPE_LOVE, forKey: "LOCATION_TYPE_LOVE")
+             }
+             
+             RATING = DEFAULT_RATING
+             
+             if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]] {
+                 POTENTIAL_PLACES = x
+             }
+             else {
+                 UserDefaults.standard.set(POTENTIAL_PLACES, forKey: "POTENTIAL_PLACES")
+             }
+    }
+    
+        /***************************************************************/
+        func updateLocationRating(){
+            getUserDefault()
+
+            for i in 0...LOCATION_TYPE.count - 1{
+                if(LOCATION_TYPE_LOVE[i]){
+                    if let x = RATING[LOCATION_TYPE[i]] {
+                        RATING[LOCATION_TYPE[i]] = x + LOVE_SCORE
+                    }
+                }
+            }
+            
+            for (_,types) in POTENTIAL_PLACES {
+                for type in types {
+                    if let x = RATING[type] {
+                        RATING[type] = x + TAP_SCORE
+                    }
+                }
+            }
+        }
+
+
     
     //MARK: - Get Health Data
     /***************************************************************/
@@ -423,7 +494,7 @@ class HealthDataController: UIViewController {
           } // end if
       }
       healthStore.execute(query)
-    }
+}
     
    
     //MARK: - Get Height Data
@@ -512,7 +583,6 @@ class HealthDataController: UIViewController {
     @IBAction func unwindToHealthDataControllerMap(_sender : UIStoryboardSegue){
     }
 
-    
     @IBAction func unwindToHealthDataControllerUpdate(_sender : UIStoryboardSegue){
         
         if _sender.source is ChangeGoalController{
@@ -543,10 +613,7 @@ class HealthDataController: UIViewController {
                }
            }
        }
-    
-
 }
-
 
 extension HKHealthStore {
     

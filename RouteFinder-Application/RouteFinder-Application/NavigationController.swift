@@ -32,6 +32,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let MAX_DIRECTION_SEARCH = 50
    
     var LOCATION_TYPE  : [String] = []
+    var RATING : [String : Int] = [:]
     
     var travelGoalDistance = 0
     var getLocationDataCount = 0
@@ -210,6 +211,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                         print("updateLocationDirectionDataCount: \(self.updateLocationDirectionDataCount)")
                         print("self.locationDataModel.locationDataList.count: \(self.locationDataModel.locationDataList.count)")
                         if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count && self.updateLocationDirectionDataCount <= self.MAX_DIRECTION_SEARCH){
+                            
                             print("Sorting LocationDirectionList")
                             self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption: self.sortingOption)
                             self.tableView.reloadData()
@@ -227,7 +229,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                 }
             }
         }
-        
         
         print("DoneGetDirectionData")
    }
@@ -247,8 +248,9 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             let tempLatitude = tempResult["geometry"]["location"]["lat"].doubleValue
             let tempLongitude = tempResult["geometry"]["location"]["lng"].doubleValue
             let tempPlaceID = tempResult["place_ID"].stringValue
-            
-            locationDataModel.locationDataList[tempName] = Location(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID)
+            let tempTypes = tempResult["types"].arrayObject as! [String]
+            let tempRating = getLocationRating(types: tempTypes)
+            locationDataModel.locationDataList[tempName] = Location(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID, types: tempTypes, rating: tempRating)
         }
         
         print("DoneUpdateLocationData")
@@ -260,15 +262,26 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         print("UpdateLocationDirectionData")
         if let tempDistance = json["routes"][0]["legs"][0]["distance"]["value"].int {
             let tempDuration = json["routes"][0]["legs"][0]["duration"]["value"].intValue
-
-            locationDirectionModel.locationDirectionList.append(LocationDirection(name : destinationInfo.name, latitude : destinationInfo.latitude, longitude : destinationInfo.longitude, distance : tempDistance, duration : tempDuration))
+            locationDirectionModel.locationDirectionList.append(LocationDirection(name : destinationInfo.name, latitude : destinationInfo.latitude, longitude : destinationInfo.longitude, distance : tempDistance, duration : tempDuration, types: destinationInfo.types, rating: destinationInfo.rating))
         }
         print("DoneUpdateLocationDirectionData")
         
         completion()
     }
 
-    
+    //MARK: - Get Location Rating
+    /***************************************************************/
+    func getLocationRating(types : [String]) -> Int {
+        var result = 0
+        
+        for type in types{
+            if let x = RATING[type]{
+                result += x
+            }
+        }
+        
+        return result
+    }
     
     //MARK: - TableView
     /***************************************************************/
@@ -303,7 +316,9 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         
         let coordinateParameters : [String : Double] = [ "locationLatitude" : locationLatitude, "locationLongitude" : locationLongitude]
         
-        cell.setLocationCellValues(infoParameters: infoParameters, coordinateParameters: coordinateParameters)
+        let infoTypes = locationDirectionModel.locationDirectionList[indexPath.row].types
+        
+        cell.setLocationCellValues(infoParameters: infoParameters, coordinateParameters: coordinateParameters,infoTypes: infoTypes)
         
         cell.delegate = self
 
@@ -313,10 +328,20 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     //MARK :- Segue
     /***************************************************************/
 
-    func didTapAppleMap(locationLatitude : Double,locationLongitude : Double, locationName : String ){
+    func didTapAppleMap(locationLatitude : Double,locationLongitude : Double, locationName : String, types : [String]){
         mapDestinationLatitude = locationLatitude
         mapDestinationLongitude = locationLongitude
         mapLocationName = locationName
+        
+        if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]]{
+            x[locationName] = types
+            UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
+        }
+        else {
+            var y : [String : [String]] = [:]
+            y[locationName] = types
+            UserDefaults.standard.set(y, forKey: "POTENTIAL_PLACES")
+        }
         
         performSegue(withIdentifier: "goToMapController", sender: self)
     }
