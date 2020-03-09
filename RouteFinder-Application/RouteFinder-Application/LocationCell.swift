@@ -61,15 +61,26 @@ class LocationCell: UITableViewCell {
     }
     
     @IBAction func appleMapPressed(_ sender: Any) {
-        if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]]{
-            x[locationName] = types
-            UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
+        let currentTime = Date().timeIntervalSinceReferenceDate
+        let data = HistoryData(locationName: locationName,types: types,time: currentTime)
+       
+        do {
+            let encodedData = try NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
+            
+            if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String:Data]{
+               x[locationName] = encodedData
+               UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
+           }
+           else {
+               var y : [String : Data] = [:]
+               y[locationName] = encodedData
+               UserDefaults.standard.set(y, forKey: "POTENTIAL_PLACES")
+           }
+            
+        } catch {
+            print("Could not print Data")
         }
-        else {
-            var y : [String : [String]] = [:]
-            y[locationName] = types
-            UserDefaults.standard.set(y, forKey: "POTENTIAL_PLACES")
-        }
+       
         
         let appleLinkWithCoordinate = "http://maps.apple.com/?daddr=\(locationLatitude),\(locationLongitude)&dirflg=w"
         

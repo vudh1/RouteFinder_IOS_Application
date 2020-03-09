@@ -9,9 +9,6 @@
 import UIKit
 
 class ChangeGoalController : UIViewController, UITextFieldDelegate{
-    
-    let MAX_DIGITS = 4
-
     @IBOutlet weak var changeGoalView: UIView!
     
     @IBOutlet weak var currentGoal: UILabel!

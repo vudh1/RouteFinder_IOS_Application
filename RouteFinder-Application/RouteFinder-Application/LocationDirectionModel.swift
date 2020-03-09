@@ -74,9 +74,7 @@ class LocationDirectionModel {
             }
             
         case 2: // sort by rating of location
-              for i in 0...locationDirectionList.count-1 {
-                print(locationDirectionList[i].types,locationDirectionList[i].rating)
-            }
+
               for i in 1...locationDirectionList.count-1{
                   var j : Int = i-1
                   let selected = locationDirectionList[i]
@@ -91,9 +89,6 @@ class LocationDirectionModel {
                   locationDirectionList[j+1] = selected
               }
         
-              for i in 0...locationDirectionList.count-1 {
-                print(locationDirectionList[i].types,locationDirectionList[i].rating)
-            }
         default:
             return
         }

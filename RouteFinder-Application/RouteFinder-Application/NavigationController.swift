@@ -24,15 +24,10 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     var GOOGLE_API_ID = ""
     
     //local variables: all distance units are meters
-    var MAX_RADIUS = 1000
-    let MAX_DIFF_FROM_DISTANCE = 500
-    let MIN_DISTANCE = 1
-    let TRAVEL_MODE = "walking"
-    let MAX_CELL = 25
-    let MAX_DIRECTION_SEARCH = 50
-   
     var LOCATION_TYPE  : [String] = []
     var RATING : [String : Int] = [:]
+    
+    var max_radius = MAX_RADIUS
     
     var travelGoalDistance = 0
     var getLocationDataCount = 0
@@ -66,9 +61,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         
         if let pathToKeys = Bundle.main.path(forResource: "Keys", ofType: "plist") {
             keys = NSDictionary(contentsOfFile: pathToKeys)
-           
-           
-            
         }
         
         if let dict = keys {
@@ -117,7 +109,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             
             if LOCATION_TYPE.count > 0 {
                 for i in 0...LOCATION_TYPE.count-1{
-                    let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(MAX_RADIUS) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_API_ID]
+                    let originParams : [String : String] = ["location": "\(latitude),\(longitude)" , "radius" : String(max_radius) ,"type" : LOCATION_TYPE[i], "key" : GOOGLE_API_ID]
                     getLocationData(Url: SEARCH_API_URL, parameters: originParams){
                         //only getDirection after searching nearbyLocation of all types
                         print("self.updateLocationDataCount : \(self.updateLocationDataCount)")
@@ -157,7 +149,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                          travelGoalDistance = MIN_DISTANCE
                      }
                         
-                     MAX_RADIUS = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
+                     max_radius = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
                      
                      locationDataModel.locationDataList.removeAll()
                      locationDirectionModel.locationDirectionList.removeAll()
@@ -210,7 +202,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                         self.updateLocationDirectionDataCount+=1
                         print("updateLocationDirectionDataCount: \(self.updateLocationDirectionDataCount)")
                         print("self.locationDataModel.locationDataList.count: \(self.locationDataModel.locationDataList.count)")
-                        if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count && self.updateLocationDirectionDataCount <= self.MAX_DIRECTION_SEARCH){
+                        if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count && self.updateLocationDirectionDataCount <= MAX_DIRECTION_SEARCH){
                             
                             print("Sorting LocationDirectionList")
                             self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption: self.sortingOption)
@@ -333,16 +325,26 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         mapDestinationLongitude = locationLongitude
         mapLocationName = locationName
         
-        if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]]{
-            x[locationName] = types
-            UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
-        }
-        else {
-            var y : [String : [String]] = [:]
-            y[locationName] = types
-            UserDefaults.standard.set(y, forKey: "POTENTIAL_PLACES")
-        }
+        let currentTime = Date().timeIntervalSinceReferenceDate
+        let data = HistoryData(locationName: locationName,types: types,time: currentTime)
         
+         do {
+             let encodedData = try NSKeyedArchiver.archivedData(withRootObject: data, requiringSecureCoding: false)
+             
+             if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String:Data]{
+                x[locationName] = encodedData
+                UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
+            }
+            else {
+                var y : [String : Data] = [:]
+                y[locationName] = encodedData
+                UserDefaults.standard.set(y, forKey: "POTENTIAL_PLACES")
+            }
+             
+         } catch {
+             print("Could not print Data")
+         }
+              
         performSegue(withIdentifier: "goToMapController", sender: self)
     }
     

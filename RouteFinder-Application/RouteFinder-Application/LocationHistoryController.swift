@@ -10,11 +10,17 @@ import UIKit
 
 class LocationHistoryController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var historyList : [String : HistoryData] = [:]
     var nameList : [String] = []
     var typeList : [String] = []
     @IBOutlet weak var tableView: UITableView!
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if nameList.count > MAX_CELL {
+           return MAX_CELL
+        }
+        
         return nameList.count
     }
     
@@ -37,16 +43,28 @@ class LocationHistoryController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]] {
-                    
-            for(name,types) in x{
-                nameList.append(name)
+        if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : Data] {
+            
+            for (name,encodedData) in x {
+                do {
+                    if let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(encodedData) as? HistoryData {
+                        historyList[name] = data
+                    }
+                } catch {
+                    print("Couldn't read file.")
+                }
+            }
+            
+            let sortedList = historyList.sorted { $0.1.time > $1.1.time }
+
+            for(key,value) in sortedList{
+                nameList.append(key)
                 
                 var temp : String = ""
                 
-                for i in 0...types.count-1 {
-                    temp += types[i]
-                    if i < types.count-1 {
+                for i in 0...value.types.count-1 {
+                    temp += value.types[i]
+                    if i < value.types.count-1 {
                         temp += ", "
                     }
                 }

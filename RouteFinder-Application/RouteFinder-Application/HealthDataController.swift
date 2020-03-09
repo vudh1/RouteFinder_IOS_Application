@@ -9,6 +9,17 @@
 import UIKit
 import HealthKit
 
+let LOVE_SCORE = 5
+let TAP_SCORE = 1
+let REFRESH_TIME = 10
+let MAX_DIGITS = 4
+let MAX_RADIUS = 1000
+let MAX_DIFF_FROM_DISTANCE = 500
+let MIN_DISTANCE = 1
+let TRAVEL_MODE = "walking"
+let MAX_CELL = 25
+let MAX_DIRECTION_SEARCH = 50
+
 class HealthDataController: UIViewController {
     let LOCATION_TYPE = [
                             "aquarium",
@@ -55,7 +66,7 @@ class HealthDataController: UIViewController {
         "zoo": 0]
     
     var RATING : [String: Int] = [:]
-    var POTENTIAL_PLACES : [String : [String]] = [:]
+    var POTENTIAL_PLACES : [String : Data] = [:]
 
     var LOCATION_TYPE_LOVE = [
                            false,
@@ -78,11 +89,6 @@ class HealthDataController: UIViewController {
                            true,
                            true,
                            false]
-    
-    let LOVE_SCORE = 5
-    let TAP_SCORE = 1
-    let REFRESH_TIME = 10
-    
     
     var locationTypes : [String] = []
     
@@ -193,7 +199,7 @@ class HealthDataController: UIViewController {
 
     func scheduledTimerWithTimeInterval(){
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(REFRESH_TIME), target: self, selector: Selector("updateHeathInformation"), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(REFRESH_TIME), target: self, selector: Selector(("updateHeathInformation")), userInfo: nil, repeats: true)
     }
     
     func setOutletLayer(){
@@ -293,7 +299,7 @@ class HealthDataController: UIViewController {
              
              RATING = DEFAULT_RATING
              
-             if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]] {
+             if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : Data] {
                  POTENTIAL_PLACES = x
              }
              else {
@@ -313,11 +319,16 @@ class HealthDataController: UIViewController {
                 }
             }
             
-            for (_,types) in POTENTIAL_PLACES {
-                for type in types {
-                    if let x = RATING[type] {
-                        RATING[type] = x + TAP_SCORE
-                    }
+            for (_,data) in POTENTIAL_PLACES {
+                do {
+                    if let decodedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? HistoryData {
+                        for type in decodedData.types {
+                            if let x = RATING[type] {
+                                RATING[type] = x + TAP_SCORE
+                            }
+                        }                    }
+                } catch {
+                    print("Couldn't read file.")
                 }
             }
         }
