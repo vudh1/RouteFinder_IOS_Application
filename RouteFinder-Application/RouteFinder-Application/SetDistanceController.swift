@@ -13,16 +13,14 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
     
     var reccomendGoal : String = ""
     
-    @IBOutlet weak var enterDistanceView: UIView!
-    
-    @IBOutlet weak var CurrentGoal: UILabel!
-    
-    let MAX_DIGITS = 4
-    
     var locationTypes : [String] = []
     
     var ratingTypes : [String : Int] = [:]
     
+    @IBOutlet weak var enterDistanceView: UIView!
+    
+    @IBOutlet weak var CurrentGoal: UILabel!
+
     @IBOutlet weak var desiredDistance: UITextField! // textField for goal distance
 
     @IBOutlet weak var searchLocationsOutlet: UIButton! //outlet of Search Location Button

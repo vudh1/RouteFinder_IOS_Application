@@ -13,8 +13,8 @@ class LocationHistoryController: UIViewController, UITableViewDelegate, UITableV
     var historyList : [String : HistoryData] = [:]
     var nameList : [String] = []
     var typeList : [String] = []
+    
     @IBOutlet weak var tableView: UITableView!
-
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if nameList.count > MAX_CELL {

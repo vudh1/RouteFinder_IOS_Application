@@ -9,12 +9,11 @@
 import UIKit
 
 class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UITableViewDelegate, UITableViewDataSource {
-    var LOCATION_TYPE : [String] = []
-    var LOCATION_TYPE_LOVE : [Bool] = []
+    var loveStatus : [Bool] = []
     
-    func didTapLike(isLiked: Bool, cellIndex : Int) {
-        LOCATION_TYPE_LOVE[cellIndex] = isLiked
-        UserDefaults.standard.set(LOCATION_TYPE_LOVE, forKey: "LOCATION_TYPE_LOVE")
+    func didTapHeart(isLoved: Bool, cellIndex : Int) {
+        loveStatus[cellIndex] = isLoved
+        UserDefaults.standard.set(loveStatus, forKey: "LOCATION_TYPE_LOVE")
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -31,13 +30,13 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
         cell.LocationTypeOutlet.layer.masksToBounds = true
         cell.LocationTypeOutlet.layer.cornerRadius = 8.0
         
-        if LOCATION_TYPE_LOVE[indexPath.row] {
+        if loveStatus[indexPath.row] {
             cell.HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
-            cell.isLiked = true
+            cell.isLoved = true
         }
         else {
             cell.HeartOutlet.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-            cell.isLiked = false
+            cell.isLoved = false
         }
         
         cell.LocationTypeOutlet.text = LOCATION_TYPE[indexPath.row]
@@ -48,12 +47,8 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE") as? [String] {
-            LOCATION_TYPE = x
-        }
-        
         if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
-            LOCATION_TYPE_LOVE = x
+            loveStatus = x
         }
         
         tableView.delegate = self

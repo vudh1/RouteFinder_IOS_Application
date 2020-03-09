@@ -19,6 +19,8 @@ class ChangeGoalController : UIViewController, UITextFieldDelegate{
 
     @IBOutlet weak var cancelOutlet: UIButton!
     
+    @IBOutlet weak var DefaultOutlet: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
             
@@ -35,6 +37,9 @@ class ChangeGoalController : UIViewController, UITextFieldDelegate{
            
         cancelOutlet.layer.masksToBounds = true
         cancelOutlet.layer.cornerRadius = 8.0
+        
+        DefaultOutlet.layer.masksToBounds = true
+        DefaultOutlet.layer.cornerRadius = 8.0
        }
 
     override func didReceiveMemoryWarning() {

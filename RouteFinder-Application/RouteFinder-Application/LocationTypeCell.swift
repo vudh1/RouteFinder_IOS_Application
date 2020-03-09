@@ -9,12 +9,12 @@
 import UIKit
 
 protocol LocationTypeCellDelegate{
-    func didTapLike(isLiked : Bool, cellIndex : Int)
+    func didTapHeart(isLoved : Bool, cellIndex : Int)
 }
 
 class LocationTypeCell : UITableViewCell {
     var delegate : LocationTypeCellDelegate?
-    var isLiked : Bool = false
+    var isLoved : Bool = false
     var cellIndex : Int = 0
     
     @IBOutlet weak var LocationTypeOutlet: UILabel!
@@ -22,29 +22,29 @@ class LocationTypeCell : UITableViewCell {
     @IBOutlet weak var HeartOutlet: UIButton!
     
     @IBAction func choosePressed(_ sender: Any) {
-        if !isLiked {
+        if !isLoved {
             HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
-            isLiked = true
+            isLoved = true
         }
         else {
             HeartOutlet.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-            isLiked = false
+            isLoved = false
         }
         
-        delegate?.didTapLike(isLiked: isLiked, cellIndex: cellIndex)
+        delegate?.didTapHeart(isLoved: isLoved, cellIndex: cellIndex)
     }
     
     @IBAction func HeartPressed(_ sender: Any) {
-        if !isLiked {
+        if !isLoved {
             HeartOutlet.setImage(UIImage(systemName: "suit.heart.fill"), for: .normal)
-            isLiked = true
+            isLoved = true
         }
         else {
             HeartOutlet.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-            isLiked = false
+            isLoved = false
         }
         
-        delegate?.didTapLike(isLiked: isLiked, cellIndex: cellIndex)
+        delegate?.didTapHeart(isLoved: isLoved, cellIndex: cellIndex)
     }
     
     

@@ -56,24 +56,6 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
         nearbyLocationUpdate()
     }
     
-    func setKeyValues() -> Bool{
-        var keys: NSDictionary?
-        
-        if let pathToKeys = Bundle.main.path(forResource: "Keys", ofType: "plist") {
-            keys = NSDictionary(contentsOfFile: pathToKeys)
-        }
-        
-        if let dict = keys {
-             SEARCH_API_URL = dict["placesAPI"] as! String
-             DIRECTION_API_URL = dict["directionsAPI"]  as! String
-             GOOGLE_API_ID = dict["googleAPIKey"]  as! String
-            
-            return true
-        }
-        
-        return false
-    }
-    
     /***************************************************************/
 
     override func viewDidLoad() {
@@ -163,6 +145,25 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
             print("Important Keys are not Read!!!")
         }
       }
+    
+    
+       func setKeyValues() -> Bool{
+           var keys: NSDictionary?
+           
+           if let pathToKeys = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+               keys = NSDictionary(contentsOfFile: pathToKeys)
+           }
+           
+           if let dict = keys {
+                SEARCH_API_URL = dict["placesAPI"] as! String
+                DIRECTION_API_URL = dict["directionsAPI"]  as! String
+                GOOGLE_API_ID = dict["googleAPIKey"]  as! String
+               
+               return true
+           }
+           
+           return false
+       }
 
     //MARK: - Networking
     /***************************************************************/
