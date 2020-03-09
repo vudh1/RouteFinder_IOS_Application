@@ -63,11 +63,13 @@ class LocationHistoryController: UIViewController, UITableViewDelegate, UITableV
                 var temp : String = ""
                 
                 for i in 0...value.types.count-1 {
-                    temp += value.types[i]
-                    if i < value.types.count-1 {
-                        temp += ", "
+                    if (LOCATION_TYPE.contains(value.types[i])) {
+                        temp += " \(value.types[i]),"
                     }
                 }
+                
+                temp.removeLast()
+                
                 typeList.append(temp)
             }
         }
