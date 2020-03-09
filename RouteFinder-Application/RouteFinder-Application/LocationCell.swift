@@ -62,9 +62,9 @@ class LocationCell: UITableViewCell {
     
     @IBAction func appleMapPressed(_ sender: Any) {
         if var x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : [String]]{
-                  x[locationName] = types
-                  UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
-              }
+            x[locationName] = types
+            UserDefaults.standard.set(x, forKey: "POTENTIAL_PLACES")
+        }
         else {
             var y : [String : [String]] = [:]
             y[locationName] = types

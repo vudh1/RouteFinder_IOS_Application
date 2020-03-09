@@ -209,7 +209,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="49u-qW-aKM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="114.49275362318842" y="136.95652173913044"/>
+            <point key="canvasLocation" x="-603" y="137"/>
         </scene>
         <!--Set Distance Controller-->
         <scene sceneID="Qd6-G7-wdW">
@@ -323,7 +323,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UzE-Pq-76j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-684.05797101449275" y="136.95652173913044"/>
+            <point key="canvasLocation" x="-1401" y="137"/>
         </scene>
         <!--Map Controller-->
         <scene sceneID="ufK-uw-1bc">
@@ -395,7 +395,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kQr-vn-Qf5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="H4M-67-xBD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="873.91304347826099" y="136.95652173913044"/>
+            <point key="canvasLocation" x="157" y="137"/>
         </scene>
         <!--Health Data Controller-->
         <scene sceneID="sjn-CP-BbI">
@@ -614,7 +614,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrI-BH-tid" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2288.4057971014495" y="136.95652173913044"/>
+            <point key="canvasLocation" x="-2329" y="137"/>
         </scene>
         <!--Change Goal Controller-->
         <scene sceneID="0FI-tY-6NJ">
@@ -673,7 +673,7 @@
                                             <outlet property="delegate" destination="uxD-gu-4e8" id="cSX-A5-NYG"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Current Goal" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouQ-q7-vgf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Change Your Goal" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouQ-q7-vgf">
                                         <rect key="frame" x="19" y="33" width="239" height="99"/>
                                         <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -739,7 +739,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9In-FL-jfA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="WpL-6T-yH2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-684.05797101449275" y="839.67391304347836"/>
+            <point key="canvasLocation" x="-2330" y="875"/>
         </scene>
         <!--Set Location Type Controller-->
         <scene sceneID="RO4-fn-R9A">
@@ -857,7 +857,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocL-bw-KSi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-684.05797101449275" y="-594.29347826086962"/>
+            <point key="canvasLocation" x="-2330" y="-575"/>
         </scene>
         <!--Location History Controller-->
         <scene sceneID="fX4-Ga-ZHO">
@@ -971,7 +971,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uir-Xo-hva" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2288.4057971014495" y="-651.35869565217399"/>
+            <point key="canvasLocation" x="-1401" y="-576"/>
         </scene>
     </scenes>
     <resources>

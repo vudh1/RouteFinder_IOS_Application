@@ -155,7 +155,7 @@ class HealthDataController: UIViewController {
           updateLocationRating()
           changeGoalVC.ratingTypes = RATING
         
-          changeGoalVC.CurrentGoal.text = "Adjust Your Distance"
+          changeGoalVC.CurrentGoal.text = "Enter Your Distance"
           changeGoalVC.desiredDistance.text = String(defaultGoal)
           changeGoalVC.CurrentGoal.layer.masksToBounds = true
           changeGoalVC.CurrentGoal.layer.cornerRadius = 8.0

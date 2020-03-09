@@ -89,6 +89,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDeleg
         })
     }
     
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

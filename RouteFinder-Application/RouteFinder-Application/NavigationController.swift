@@ -28,7 +28,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     let MAX_DIFF_FROM_DISTANCE = 500
     let MIN_DISTANCE = 1
     let TRAVEL_MODE = "walking"
-    let MAX_CELL = 20
+    let MAX_CELL = 25
     let MAX_DIRECTION_SEARCH = 50
    
     var LOCATION_TYPE  : [String] = []
