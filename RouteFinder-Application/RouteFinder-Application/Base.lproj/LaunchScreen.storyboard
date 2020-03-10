@@ -15,23 +15,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WELCOME!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrj-tn-BLV">
-                                <rect key="frame" x="57" y="334" width="300" height="174"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="174" id="Bnt-HJ-cca"/>
-                                    <constraint firstAttribute="width" constant="300" id="YjA-DM-glk"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-BlackOblique" family="Avenir" pointSize="45"/>
-                                <color key="textColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <nil key="highlightedColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To RouteFinder" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrj-tn-BLV">
+                                <rect key="frame" x="20" y="310" width="373" height="124"/>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="45"/>
+                                <color key="textColor" red="0.41499960419999998" green="0.69502496719999995" blue="0.29794824120000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="highlightedColor" red="0.41568627450000001" green="0.69019607839999997" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="shadowColor" red="0.72752863170000004" green="0.86898118260000001" blue="0.34495913979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.96078431369999995" green="0.80392156859999997" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.80392156862745101" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vrj-tn-BLV" secondAttribute="bottom" constant="354" id="7bQ-7j-TjW"/>
-                            <constraint firstItem="vrj-tn-BLV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="57" id="Fdy-xE-p0E"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vrj-tn-BLV" secondAttribute="trailing" constant="57" id="OTj-oh-Cey"/>
-                            <constraint firstItem="vrj-tn-BLV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="290" id="kZu-uz-Dc9"/>
+                            <constraint firstItem="vrj-tn-BLV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="CcV-uG-I7d"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vrj-tn-BLV" secondAttribute="trailing" constant="21" id="Sj9-K8-bne"/>
+                            <constraint firstItem="vrj-tn-BLV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="266" id="Zq9-KC-S4L"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

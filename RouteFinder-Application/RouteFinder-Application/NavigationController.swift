@@ -170,13 +170,15 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     func getLocationData(Url : String, parameters : [String: String], completion : @escaping ()->Void){
         print("GetLocationData")
         
+        self.getLocationDataCount+=1
+
         AF.request(Url, method : .get, parameters: parameters).responseJSON{ response in
             switch response.result{
             case .success(let value):
                 let locationJSON = JSON(value)
                 self.updateLocationData(json: locationJSON){
                     self.updateLocationDataCount+=1
-                    self.getLocationDataCount+=1
+
                     completion()
                 }
             case .failure(let error):

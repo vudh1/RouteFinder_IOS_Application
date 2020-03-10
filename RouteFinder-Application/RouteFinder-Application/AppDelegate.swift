@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        Thread.sleep(forTimeInterval: 0.75) // sleep to display LaunchScreen longer
+        Thread.sleep(forTimeInterval: 0.5) // sleep to display LaunchScreen longer
 
         return true
     }
