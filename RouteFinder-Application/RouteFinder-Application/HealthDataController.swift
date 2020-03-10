@@ -91,8 +91,7 @@ let DEFAULT_LOVE_STATUS = [
 
 class HealthDataController: UIViewController {
     
-    var hard_rating : [String: Int] = [:] //rating based on types
-    var soft_rating : [String: Int] = [:] //rating based on locations
+    var rating : [String: Int] = [:] //rating based on types
 
     var potentialPlaces : [String : Data] = [:]
 
@@ -169,10 +168,16 @@ class HealthDataController: UIViewController {
           changeGoalVC.locationTypes = locationTypes
         
           updateLocationRating()
-          changeGoalVC.ratingTypes = hard_rating
+          changeGoalVC.ratingTypes = rating
         
           changeGoalVC.CurrentGoal.text = "Enter Your Distance"
-          changeGoalVC.desiredDistance.text = String(currentToGoal)
+            if (currentToGoal >= 0){
+            changeGoalVC.desiredDistance.text = String(currentToGoal)
+
+            }
+            else {
+                changeGoalVC.desiredDistance.text = String(0)
+        }
           changeGoalVC.CurrentGoal.layer.masksToBounds = true
           changeGoalVC.CurrentGoal.layer.cornerRadius = 8.0
           changeGoalVC.didMove(toParent: self)
@@ -300,7 +305,7 @@ class HealthDataController: UIViewController {
                  UserDefaults.standard.set(DEFAULT_LOVE_STATUS, forKey: "LOCATION_TYPE_LOVE")
              }
              
-             hard_rating = DEFAULT_RATING
+             rating = DEFAULT_RATING
              
              if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : Data] {
                  potentialPlaces = x
@@ -316,8 +321,8 @@ class HealthDataController: UIViewController {
 
             for i in 0...LOCATION_TYPE.count - 1{
                 if(loveStatus[i]){
-                    if let x = hard_rating[LOCATION_TYPE[i]] {
-                        hard_rating[LOCATION_TYPE[i]] = x + LOVE_SCORE
+                    if let x = rating[LOCATION_TYPE[i]] {
+                        rating[LOCATION_TYPE[i]] = x + LOVE_SCORE
                     }
                 }
             }
@@ -326,8 +331,8 @@ class HealthDataController: UIViewController {
                 do {
                     if let decodedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? HistoryData {
                         for type in decodedData.types {
-                            if let x = hard_rating[type] {
-                                hard_rating[type] = x + TAP_SCORE
+                            if let x = rating[type] {
+                                rating[type] = x + TAP_SCORE
                             }
                         }
                     }
