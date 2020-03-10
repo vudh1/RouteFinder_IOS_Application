@@ -9,8 +9,10 @@
 import UIKit
 import HealthKit
 
-let LOVE_SCORE = 5
-let TAP_SCORE = 1
+let LOVE_SCORE = 2 // a type that is loved
+let TAP_SCORE = 1 // a type that is checked
+let CHECK_SCORE = 4 // a location that is checked
+
 let REFRESH_TIME = 5
 let MAX_DIGITS = 5
 let MAX_RADIUS = 1000
@@ -89,8 +91,9 @@ let DEFAULT_LOVE_STATUS = [
 
 class HealthDataController: UIViewController {
     
-    var rating : [String: Int] = [:]
-    
+    var hard_rating : [String: Int] = [:] //rating based on types
+    var soft_rating : [String: Int] = [:] //rating based on locations
+
     var potentialPlaces : [String : Data] = [:]
 
     var loveStatus : [Bool] = DEFAULT_LOVE_STATUS
@@ -166,7 +169,7 @@ class HealthDataController: UIViewController {
           changeGoalVC.locationTypes = locationTypes
         
           updateLocationRating()
-          changeGoalVC.ratingTypes = rating
+          changeGoalVC.ratingTypes = hard_rating
         
           changeGoalVC.CurrentGoal.text = "Enter Your Distance"
           changeGoalVC.desiredDistance.text = String(currentToGoal)
@@ -297,7 +300,7 @@ class HealthDataController: UIViewController {
                  UserDefaults.standard.set(DEFAULT_LOVE_STATUS, forKey: "LOCATION_TYPE_LOVE")
              }
              
-             rating = DEFAULT_RATING
+             hard_rating = DEFAULT_RATING
              
              if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : Data] {
                  potentialPlaces = x
@@ -313,8 +316,8 @@ class HealthDataController: UIViewController {
 
             for i in 0...LOCATION_TYPE.count - 1{
                 if(loveStatus[i]){
-                    if let x = rating[LOCATION_TYPE[i]] {
-                        rating[LOCATION_TYPE[i]] = x + LOVE_SCORE
+                    if let x = hard_rating[LOCATION_TYPE[i]] {
+                        hard_rating[LOCATION_TYPE[i]] = x + LOVE_SCORE
                     }
                 }
             }
@@ -323,10 +326,11 @@ class HealthDataController: UIViewController {
                 do {
                     if let decodedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? HistoryData {
                         for type in decodedData.types {
-                            if let x = rating[type] {
-                                rating[type] = x + TAP_SCORE
+                            if let x = hard_rating[type] {
+                                hard_rating[type] = x + TAP_SCORE
                             }
-                        }                    }
+                        }
+                    }
                 } catch {
                     print("Couldn't read file.")
                 }

@@ -17,6 +17,7 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To RouteFinder" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrj-tn-BLV">
                                 <rect key="frame" x="20" y="310" width="373" height="124"/>
+                                <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="45"/>
                                 <color key="textColor" red="0.41499960419999998" green="0.69502496719999995" blue="0.29794824120000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="highlightedColor" red="0.41568627450000001" green="0.69019607839999997" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

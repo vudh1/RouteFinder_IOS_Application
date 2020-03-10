@@ -74,20 +74,37 @@ class LocationDirectionModel {
             }
             
         case 2: // sort by rating of location
-
-              for i in 1...locationDirectionList.count-1{
-                  var j : Int = i-1
-                  let selected = locationDirectionList[i]
-                  
-                  let loc = binarySearchForRating(list: locationDirectionList, item: selected, low: 0, high: j)
-                  
-                  while j >= loc {
-                      locationDirectionList[j+1]=locationDirectionList[j]
-                      j-=1
-                  }
-                  
-                  locationDirectionList[j+1] = selected
-              }
+            
+            //Add CHECK_SCORE
+            if let x = UserDefaults.standard.object(forKey: "POTENTIAL_PLACES") as? [String : Data] {
+                var y : [String] = []
+                
+                for(name,_) in x {
+                    y.append(name)
+                }
+                
+                for i in 1...locationDirectionList.count-1{
+                    if(y.contains(locationDirectionList[i].name)) {
+                        locationDirectionList[i].rating += CHECK_SCORE
+                    }
+                    
+                    print(locationDirectionList[i].name,locationDirectionList[i].rating)
+                }
+            }
+            
+            for i in 1...locationDirectionList.count-1{
+                             var j : Int = i-1
+                             let selected = locationDirectionList[i]
+                             
+                             let loc = binarySearchForRating(list: locationDirectionList, item: selected, low: 0, high: j)
+                             
+                             while j >= loc {
+                                 locationDirectionList[j+1]=locationDirectionList[j]
+                                 j-=1
+                             }
+                             
+                             locationDirectionList[j+1] = selected
+                }
         
         default:
             return
