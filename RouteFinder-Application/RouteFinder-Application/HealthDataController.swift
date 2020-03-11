@@ -193,11 +193,13 @@ class HealthDataController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         setOutletLayer()
         
         updateHeathInformation()
         
         scheduledTimerWithTimeInterval()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -289,6 +291,8 @@ class HealthDataController: UIViewController {
                self.CurrentStepsLabel.text = "Today Steps\n\(String(self.currentStep))"
            }
     }
+    //MARK: - Notification
+    /***************************************************************/
     
     
     //MARK: - Get User Default Setting and Get Location Rating
