@@ -38,8 +38,10 @@ class SetLocationTypeController: UIViewController, LocationTypeCellDelegate, UIT
             cell.HeartOutlet.setImage(UIImage(systemName: "suit.heart"), for: .normal)
             cell.isLoved = false
         }
-        
-        cell.LocationTypeOutlet.text = LOCATION_TYPE[indexPath.row]
+            
+        var newString = LOCATION_TYPE[indexPath.row].replacingOccurrences(of: "_", with: " ", options: .literal, range: nil)
+        newString = newString.replacingOccurrences(of: " or ", with: " / ", options: .literal, range: nil)
+        cell.LocationTypeOutlet.text = newString
         
         return cell
     }

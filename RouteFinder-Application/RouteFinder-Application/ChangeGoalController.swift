@@ -41,6 +41,7 @@ class ChangeGoalController : UIViewController, UITextFieldDelegate{
         DefaultOutlet.layer.masksToBounds = true
         DefaultOutlet.layer.cornerRadius = 8.0
         
+        //to close NumPad
         view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
        }
 

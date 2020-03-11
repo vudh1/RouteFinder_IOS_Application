@@ -59,12 +59,13 @@ class LocationHistoryController: UIViewController, UITableViewDelegate, UITableV
 
             for(key,value) in sortedList{
                 nameList.append(key)
-                
                 var temp : String = ""
                 
                 for i in 0...value.types.count-1 {
                     if (LOCATION_TYPE.contains(value.types[i])) {
-                        temp += " \(value.types[i]),"
+                        let newString = value.types[i].replacingOccurrences(of: "_", with: " ", options: .literal, range: nil)
+                        let newString1 = newString.replacingOccurrences(of: " or ", with: ", ", options: .literal, range: nil)
+                        temp += " \(newString1),"
                     }
                 }
                 
