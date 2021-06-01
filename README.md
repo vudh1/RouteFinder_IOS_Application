@@ -3,4 +3,5 @@ Implementing an IOS application and applying APIs to keep track of user’s biom
 Performing preference learning and comparison-based ranking to recommend user’s potential exercising locations
 Swift, Xcode, Cocoapods, CoreML, Firebase
 
+Here is the demo:
 ![](app_ui.gif)
