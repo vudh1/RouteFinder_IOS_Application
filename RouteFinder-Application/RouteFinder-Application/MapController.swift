@@ -1,107 +1,112 @@
-//
-//  MapController.swift
-//  RouteFinder-Application
-//
-//  Created by Daniel Vu on 2/21/20.
-//  Copyright © 2020 UC Irvine. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import CoreLocation
 
 class MapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
-    var destLatitude : Double = 0
-    var destLongitude : Double = 0
-    var destName : String = ""
-    
+    var destLatitude: Double = 0
+    var destLongitude: Double = 0
+    var destName: String = ""
+
     let locationManager = CLLocationManager()
-   
+    private var routeRequested = false
+
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var locationName: UILabel!
-    
     @IBOutlet weak var backOutlet: UIButton!
-    
-    /***************************************************************/
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         locationName.layer.masksToBounds = true
         locationName.layer.cornerRadius = 8.0
         locationName.text = destName
-        
+
         backOutlet.layer.masksToBounds = true
         backOutlet.layer.cornerRadius = 8.0
-        
+
         mapView.layer.masksToBounds = true
         mapView.layer.cornerRadius = 8.0
-        
         mapView.delegate = self
         mapView.showsScale = true
         mapView.showsUserLocation = true
-        
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-            locationManager.startUpdatingHeading()
+
+        let destination = CLLocationCoordinate2D(
+            latitude: destLatitude,
+            longitude: destLongitude
+        )
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = destination
+        annotation.title = destName
+        mapView.addAnnotation(annotation)
+
+        guard CLLocationManager.locationServicesEnabled() else {
+            mapView.setRegion(
+                MKCoordinateRegion(
+                    center: destination,
+                    latitudinalMeters: 1500,
+                    longitudinalMeters: 1500
+                ),
+                animated: false
+            )
+            return
         }
 
-        let sourceCoordinates = locationManager.location?.coordinate
-        
-        let destCoordinate = CLLocationCoordinate2D(latitude: destLatitude, longitude: destLongitude)
-        
-        //Pin the destination
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = destCoordinate
-        mapView.addAnnotation(annotation)
-        
-        let sourcePlacemark = MKPlacemark(coordinate : sourceCoordinates!)
-        let destPlacemark = MKPlacemark(coordinate: destCoordinate)
-        
-        let sourceItem = MKMapItem(placemark : sourcePlacemark)
-        let destItem = MKMapItem(placemark: destPlacemark)
-        
-        let directionRequest = MKDirections.Request()
-        directionRequest.source = sourceItem
-        directionRequest.destination = destItem
-        directionRequest.transportType = .walking
-        
-        let directions = MKDirections(request: directionRequest)
-        
-        directions.calculate(completionHandler: {
-            response,error in
-            
-            guard let response = response else {
-                if let error = error {
-                    print(error)
-                }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard !routeRequested, let source = locations.last?.coordinate else {
+            return
+        }
+
+        routeRequested = true
+        locationManager.stopUpdatingLocation()
+        requestRoute(from: source)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location error: \(error)")
+    }
+
+    private func requestRoute(from source: CLLocationCoordinate2D) {
+        let destination = CLLocationCoordinate2D(
+            latitude: destLatitude,
+            longitude: destLongitude
+        )
+
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+        request.transportType = .walking
+
+        MKDirections(request: request).calculate { [weak self] response, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                print("Directions error: \(error)")
                 return
             }
-            
-            let route = response.routes[0]
+
+            guard let route = response?.routes.first else {
+                return
+            }
+
             self.mapView.addOverlay(route.polyline, level: .aboveRoads)
-            
-            let rect = route.polyline.boundingMapRect
-            
-            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
-        })
+            self.mapView.setVisibleMapRect(
+                route.polyline.boundingMapRect,
+                edgePadding: UIEdgeInsets(top: 50, left: 40, bottom: 50, right: 40),
+                animated: true
+            )
+        }
     }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    //MARK: - Map View Configurations
-    /***************************************************************/
-    
+
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
-        renderer.lineWidth = 10.0
-        
+        renderer.lineWidth = 6.0
         return renderer
     }
 }
