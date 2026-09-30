@@ -16,13 +16,17 @@ class HistoryData : NSObject, NSCoding{
     }
     
     required convenience init?(coder: NSCoder) {
-        guard let locationName = coder.decodeObject(forKey: "locationName") as? String
-        else { return nil }
-        
+        guard
+            let locationName = coder.decodeObject(forKey: "locationName") as? String,
+            let types = coder.decodeObject(forKey: "types") as? [String]
+        else {
+            return nil
+        }
+
         self.init(
             locationName: locationName,
-            types : coder.decodeObject(forKey: "types") as! [String],
-            time : coder.decodeDouble(forKey: "time")
+            types: types,
+            time: coder.decodeDouble(forKey: "time")
         )
     }
     
