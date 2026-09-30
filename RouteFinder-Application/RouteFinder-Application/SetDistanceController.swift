@@ -48,12 +48,8 @@ class SetDistanceController: UIViewController, UITextFieldDelegate {
             destinationVC.LOCATION_TYPE = locationTypes
             destinationVC.RATING = ratingTypes
             
-            if(desiredDistance.text!.isEmpty){
-                destinationVC.desiredDistanceFromHealthController = "0"
-            }
-            else{
-                destinationVC.desiredDistanceFromHealthController = desiredDistance.text!
-            }
+            let distanceText = desiredDistance.text ?? ""
+            destinationVC.desiredDistanceFromHealthController = distanceText.isEmpty ? "0" : distanceText
         }
     }
 
