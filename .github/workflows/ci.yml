@@ -1,0 +1,28 @@
+name: iOS CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CocoaPods dependencies
+        working-directory: RouteFinder-Application
+        run: pod install --repo-update
+
+      - name: Create local API key file for build
+        run: |
+          cp RouteFinder-Application/RouteFinder-Application/Keys.example.plist              RouteFinder-Application/RouteFinder-Application/Keys.plist
+
+      - name: Show Xcode schemes
+        working-directory: RouteFinder-Application
+        run: xcodebuild -workspace RouteFinder-Application.xcworkspace -list
+
+      - name: Build for iOS Simulator
+        working-directory: RouteFinder-Application
+        run: |
+          xcodebuild             -workspace RouteFinder-Application.xcworkspace             -scheme RouteFinder-Application             -configuration Debug             -sdk iphonesimulator             -destination 'generic/platform=iOS Simulator'             CODE_SIGNING_ALLOWED=NO             build
