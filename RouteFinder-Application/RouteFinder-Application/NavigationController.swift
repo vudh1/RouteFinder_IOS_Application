@@ -124,12 +124,8 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                      getLocationDataCount = 0
                      updateLocationDirectionDataCount = 0
                      
-                     if Int(desiredDistanceFromHealthController!)! > 0{
-                         travelGoalDistance = Int(desiredDistanceFromHealthController!)!
-                     }
-                     else {
-                         travelGoalDistance = MIN_DISTANCE
-                     }
+                     let requestedDistance = Int(desiredDistanceFromHealthController ?? "") ?? 0
+                     travelGoalDistance = max(requestedDistance, MIN_DISTANCE)
                         
                      max_radius = travelGoalDistance + MAX_DIFF_FROM_DISTANCE
                      
@@ -154,15 +150,22 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                keys = NSDictionary(contentsOfFile: pathToKeys)
            }
            
-           if let dict = keys {
-                SEARCH_API_URL = dict["placesAPI"] as! String
-                DIRECTION_API_URL = dict["directionsAPI"]  as! String
-                GOOGLE_API_ID = dict["googleAPIKey"]  as! String
-               
-               return true
+           guard
+               let dict = keys,
+               let placesAPI = dict["placesAPI"] as? String,
+               let directionsAPI = dict["directionsAPI"] as? String,
+               let apiKey = dict["googleAPIKey"] as? String,
+               !placesAPI.isEmpty,
+               !directionsAPI.isEmpty,
+               !apiKey.isEmpty
+           else {
+               return false
            }
-           
-           return false
+
+           SEARCH_API_URL = placesAPI
+           DIRECTION_API_URL = directionsAPI
+           GOOGLE_API_ID = apiKey
+           return true
        }
 
     //MARK: - Networking
@@ -183,6 +186,7 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
                 }
             case .failure(let error):
                 print("Error \(error)")
+                self.updateLocationDataCount += 1
                 completion()
             }
         }
@@ -191,41 +195,60 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     }
 
     func getDirectionData(url : String, originParameters : [String: String], LocationDataModel : LocationDataModel, completion : @escaping () -> Void){
-        print("GetDirectionData")
-                
-        for (_,destinationInfo) in locationDataModel.locationDataList{
-            let params : [String : String] = ["origin" : "\(String(originParameters["location"]!))","destination" : "\(destinationInfo.latitude),\(destinationInfo.longitude)","mode" : TRAVEL_MODE,"key" : GOOGLE_API_ID]
+        guard let origin = originParameters["location"] else {
+            completion()
+            return
+        }
 
-            AF.request(url, method : .get, parameters: params).responseJSON{ response in
-                switch response.result{
+        let destinations = Array(locationDataModel.locationDataList.values.prefix(MAX_DIRECTION_SEARCH))
+        if destinations.isEmpty {
+            locationDirectionModel.locationDirectionList.removeAll()
+            tableView.reloadData()
+            completion()
+            return
+        }
+
+        updateLocationDirectionDataCount = 0
+        let group = DispatchGroup()
+
+        for destinationInfo in destinations {
+            group.enter()
+
+            let params : [String : String] = [
+                "origin": origin,
+                "destination": "\(destinationInfo.latitude),\(destinationInfo.longitude)",
+                "mode": TRAVEL_MODE,
+                "key": GOOGLE_API_ID
+            ]
+
+            AF.request(url, method : .get, parameters: params).responseJSON { response in
+                defer {
+                    self.updateLocationDirectionDataCount += 1
+                    group.leave()
+                }
+
+                switch response.result {
                 case .success(let value):
-                     let locationDirectionJSON = JSON(value)
-                                        
-                     self.updateLocationDirectionData(json: locationDirectionJSON, destinationInfo: destinationInfo){
-                        self.updateLocationDirectionDataCount+=1
-                        print("updateLocationDirectionDataCount: \(self.updateLocationDirectionDataCount)")
-                        print("self.locationDataModel.locationDataList.count: \(self.locationDataModel.locationDataList.count)")
-                        if(self.updateLocationDirectionDataCount == self.locationDataModel.locationDataList.count && self.updateLocationDirectionDataCount <= MAX_DIRECTION_SEARCH){
-                            
-                            print("Sorting LocationDirectionList")
-                            self.locationDirectionModel.sortLocationDirectionList(desiredDistance: self.travelGoalDistance, sortingOption: self.sortingOption)
-                            self.tableView.reloadData()
-                        }
-                        
-                    }
-                    
-                    completion()
-                    
+                    let locationDirectionJSON = JSON(value)
+                    self.updateLocationDirectionData(
+                        json: locationDirectionJSON,
+                        destinationInfo: destinationInfo,
+                        completion: {}
+                    )
                 case .failure(let error):
                     print("Error \(error)")
-                    
-                    completion()
-
                 }
             }
         }
-        
-        print("DoneGetDirectionData")
+
+        group.notify(queue: .main) {
+            self.locationDirectionModel.sortLocationDirectionList(
+                desiredDistance: self.travelGoalDistance,
+                sortingOption: self.sortingOption
+            )
+            self.tableView.reloadData()
+            completion()
+        }
    }
     
     
@@ -235,17 +258,25 @@ class NavigationController: UIViewController,CLLocationManagerDelegate,UITableVi
     func updateLocationData(json : JSON, completion : () -> Void){
         print("UpdateLocationData")
         
-        let tempResults = json["results"].array
-        
-        for tempResult in tempResults!{
+        let tempResults = json["results"].array ?? []
+
+        for tempResult in tempResults {
             let tempName = tempResult["name"].stringValue
             let tempVicinity = tempResult["vicinity"].stringValue
             let tempLatitude = tempResult["geometry"]["location"]["lat"].doubleValue
             let tempLongitude = tempResult["geometry"]["location"]["lng"].doubleValue
-            let tempPlaceID = tempResult["place_ID"].stringValue
-            let tempTypes = tempResult["types"].arrayObject as! [String]
+            let tempPlaceID = tempResult["place_id"].stringValue
+            let tempTypes = tempResult["types"].arrayValue.map { $0.stringValue }
             let tempRating = getLocationRating(types: tempTypes)
-            locationDataModel.locationDataList[tempName] = Location(name :  tempName,vicinity : tempVicinity, latitude : tempLatitude, longitude : tempLongitude , placeID : tempPlaceID, types: tempTypes, rating: tempRating)
+            locationDataModel.locationDataList[tempName] = Location(
+                name: tempName,
+                vicinity: tempVicinity,
+                latitude: tempLatitude,
+                longitude: tempLongitude,
+                placeID: tempPlaceID,
+                types: tempTypes,
+                rating: tempRating
+            )
         }
         
         print("DoneUpdateLocationData")
