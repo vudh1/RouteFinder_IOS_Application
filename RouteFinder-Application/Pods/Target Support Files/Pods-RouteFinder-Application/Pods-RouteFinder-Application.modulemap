@@ -1,6 +1,0 @@
-module Pods_RouteFinder_Application {
-  umbrella header "Pods-RouteFinder-Application-umbrella.h"
-
-  export *
-  module * { export * }
-}
