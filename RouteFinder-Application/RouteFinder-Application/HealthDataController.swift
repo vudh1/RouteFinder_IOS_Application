@@ -203,8 +203,13 @@ class HealthDataController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let x = UserDefaults.standard.object(forKey: "UserGoal") as? String {
-            defaultGoal = Int(x)!
+        super.viewDidAppear(animated)
+
+        if let storedGoal = UserDefaults.standard.string(forKey: "UserGoal"),
+           let goal = Int(storedGoal) {
+            defaultGoal = goal
+        } else if let goal = UserDefaults.standard.object(forKey: "UserGoal") as? Int {
+            defaultGoal = goal
         }
     }
 
@@ -213,8 +218,14 @@ class HealthDataController: UIViewController {
     }
 
     func scheduledTimerWithTimeInterval(){
-        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(REFRESH_TIME), target: self, selector: Selector(("updateHeathInformation")), userInfo: nil, repeats: true)
+        timer.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: TimeInterval(REFRESH_TIME),
+            target: self,
+            selector: #selector(updateHeathInformation),
+            userInfo: nil,
+            repeats: true
+        )
     }
     
     func setOutletLayer(){
@@ -302,10 +313,12 @@ class HealthDataController: UIViewController {
         
             UserDefaults.standard.set(LOCATION_TYPE, forKey: "LOCATION_TYPE")
              
-             if let x = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool] {
-                 loveStatus = x
+             if let saved = UserDefaults.standard.object(forKey: "LOCATION_TYPE_LOVE") as? [Bool],
+                saved.count == LOCATION_TYPE.count {
+                 loveStatus = saved
              }
              else {
+                 loveStatus = DEFAULT_LOVE_STATUS
                  UserDefaults.standard.set(DEFAULT_LOVE_STATUS, forKey: "LOCATION_TYPE_LOVE")
              }
              
@@ -323,10 +336,10 @@ class HealthDataController: UIViewController {
         func updateLocationRating(){
             getUserDefault()
 
-            for i in 0...LOCATION_TYPE.count - 1{
-                if(loveStatus[i]){
-                    if let x = rating[LOCATION_TYPE[i]] {
-                        rating[LOCATION_TYPE[i]] = x + LOVE_SCORE
+            for i in LOCATION_TYPE.indices {
+                if loveStatus[i] {
+                    if let currentRating = rating[LOCATION_TYPE[i]] {
+                        rating[LOCATION_TYPE[i]] = currentRating + LOVE_SCORE
                     }
                 }
             }
@@ -352,137 +365,139 @@ class HealthDataController: UIViewController {
     /***************************************************************/
     func getHealthInformation(completion : @escaping() -> Void){
         getDistanceData {
-                   if (self.getToday && self.getCurrent){
-                       self.currentToDailyDistance = self.dailyDistance - self.currentDistance
-                    
-                    self.getToday = false
-                    self.getCurrent = false
-                    
-                    completion()
-                    
-                    self.getUserHeight{
-                        self.HeightLabel.text = "Height\n\(self.height) m"
-                        self.dailyStep = self.getDailySteps(height: Double(self.height)!, dailyDistance: self.dailyDistance)
-                        self.DailyStepLabel.text = "Daily Steps\n\(String(self.dailyStep))"                    }
-                    
-                    self.getUserWeight{
-                        self.WeightLabel.text = "Weight\n\(self.weight) lbs"
-                    }
-                    
-                   }
-            
-                    completion()
-               }
-            
-        
+            self.currentToDailyDistance = self.dailyDistance - self.currentDistance
+            completion()
+
+            self.getUserHeight {
+                self.HeightLabel.text = "Height\n\(self.height) m"
+                if let height = Double(self.height), height > 0 {
+                    self.dailyStep = self.getDailySteps(
+                        height: height,
+                        dailyDistance: self.dailyDistance
+                    )
+                    self.DailyStepLabel.text = "Daily Steps\n\(self.dailyStep)"
+                }
+            }
+
+            self.getUserWeight {
+                self.WeightLabel.text = "Weight\n\(self.weight) lbs"
+            }
+        }
     }
 
     //MARK: - Get Distance Data
     /***************************************************************/
     func getDistanceData(completion : @escaping () -> Void){
+        let healthKitTypes = Set([
+            HKObjectType.quantityType(forIdentifier: .stepCount),
+            HKObjectType.quantityType(forIdentifier: .height),
+            HKObjectType.quantityType(forIdentifier: .bodyMass),
+            HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)
+        ].compactMap { $0 })
 
-        let healthKitTypes: Set = [ HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!,
-                                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!,
-                                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!,
-                                    HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!]
-                // Check for Authorization
-        healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { (bool, error) in
-            
-        if (bool) {
-            self.getTodaySteps { (result) in
+        healthStore.requestAuthorization(toShare: [], read: healthKitTypes) { granted, error in
+            guard granted else {
+                if let error = error {
+                    print("HealthKit authorization error: \(error)")
+                }
+                DispatchQueue.main.async {
+                    completion()
+                }
+                return
+            }
+
+            let group = DispatchGroup()
+
+            group.enter()
+            self.getTodaySteps { result in
                 DispatchQueue.main.async {
                     self.currentStep = Int(result)
-                    completion()
-                    }
+                    group.leave()
                 }
             }
-            
-            self.getTodayDistance { (result) in
+
+            group.enter()
+            self.getTodayDistance { result in
                 DispatchQueue.main.async {
                     self.currentDistance = Int(round(result))
-                    self.getToday = true
-                    completion()
+                    group.leave()
                 }
             }
-                        
-            self.getDailyDistance{ (result) in
+
+            group.enter()
+            self.getDailyDistance { result in
                 DispatchQueue.main.async {
                     self.dailyDistance = Int(round(result))
-                    self.getCurrent = true
-                    completion()
+                    group.leave()
                 }
+            }
+
+            group.notify(queue: .main) {
+                completion()
             }
         }
     }
     
     
     func getDailyDistance(completion: @escaping (Double) -> Void){
-        guard let type = HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning) else {
-           fatalError("Something went wrong retriebing quantity type distanceWalkingRunning")
-       }
-       
-       let newdate = Calendar.current.date(byAdding: .year, value: -1, to: Date())
-       let predicateone = HKQuery.predicateForSamples(withStart: newdate, end: Date(), options: .strictStartDate)
-       
-       let query = HKStatisticsQuery(quantityType: type, quantitySamplePredicate: predicateone, options: [.cumulativeSum]) { (query, statistics, error) in
-           var runWalkDistance: Double = 0
-           
-           if error != nil {
-               print("something went wrong")
-           } else if let quantity = statistics?.sumQuantity() {
-                runWalkDistance = quantity.doubleValue(for: HKUnit.meter()) / 365
-                completion(runWalkDistance)
-           }
-           
-       }
-             healthStore.execute(query)
-    }
-    
-    func getTodayDistance(completion: @escaping (Double) -> Void)
-    {
-        let type = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
-            
-        let now = Date()
-        let startOfDay = Calendar.current.startOfDay(for: now)
+        guard let type = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+            completion(0)
+            return
+        }
 
-        var interval = DateComponents()
-        interval.day = 1
-        
-        let query = HKStatisticsCollectionQuery(quantityType: type,
-        quantitySamplePredicate: nil,
-        options: [.cumulativeSum],
-        anchorDate: startOfDay,
-        intervalComponents: interval)
-        query.initialResultsHandler = { _, result, error in
-                var resultCount = 0.0
-                result!.enumerateStatistics(from: startOfDay, to: now) { statistics, _ in
+        let startDate = Calendar.current.date(byAdding: .day, value: -365, to: Date())
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startDate,
+            end: Date(),
+            options: .strictStartDate
+        )
 
-                if let sum = statistics.sumQuantity() {
-                    // Get steps (they are of double type)
-                    resultCount = sum.doubleValue(for: HKUnit.meter())
-                } // end if
-
-                // Return
-                DispatchQueue.main.async {
-                    completion(resultCount)
-                }
+        let query = HKStatisticsQuery(
+            quantityType: type,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { _, statistics, error in
+            if let error = error {
+                print("Daily distance query error: \(error)")
+                completion(0)
+                return
             }
-        }
-        
-        query.statisticsUpdateHandler = {
-            query, statistics, statisticsCollection, error in
 
-            // If new statistics are available
-            if let sum = statistics?.sumQuantity() {
-                let resultCount = sum.doubleValue(for: HKUnit.meter())
-                // Return
-                DispatchQueue.main.async {
-                    completion(resultCount)
-                }
-            } // end if
+            let total = statistics?.sumQuantity()?.doubleValue(for: HKUnit.meter()) ?? 0
+            completion(total / 365.0)
         }
+
         healthStore.execute(query)
     }
+
+    func getTodayDistance(completion: @escaping (Double) -> Void) {
+        guard let type = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+            completion(0)
+            return
+        }
+
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: now,
+            options: .strictStartDate
+        )
+
+        let query = HKStatisticsQuery(
+            quantityType: type,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { _, statistics, error in
+            if let error = error {
+                print("Today distance query error: \(error)")
+            }
+            completion(statistics?.sumQuantity()?.doubleValue(for: HKUnit.meter()) ?? 0)
+        }
+
+        healthStore.execute(query)
+    }
+
     
     //MARK: - Get Step Data
     /***************************************************************/
@@ -493,120 +508,89 @@ class HealthDataController: UIViewController {
         return Int(i)
     }
     
-    func getTodaySteps(completion: @escaping (Double) -> Void)
-    {
-      let type = HKQuantityType.quantityType(forIdentifier: .stepCount)!
-          
-      let now = Date()
-      let startOfDay = Calendar.current.startOfDay(for: now)
+    func getTodaySteps(completion: @escaping (Double) -> Void) {
+        guard let type = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+            completion(0)
+            return
+        }
 
-      var interval = DateComponents()
-      interval.day = 1
-      
-      let query = HKStatisticsCollectionQuery(quantityType: type,
-      quantitySamplePredicate: nil,
-      options: [.cumulativeSum],
-      anchorDate: startOfDay,
-      intervalComponents: interval)
-      query.initialResultsHandler = { _, result, error in
-              var resultCount = 0.0
-              result!.enumerateStatistics(from: startOfDay, to: now) { statistics, _ in
+        let now = Date()
+        let startOfDay = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startOfDay,
+            end: now,
+            options: .strictStartDate
+        )
 
-              if let sum = statistics.sumQuantity() {
-                  // Get steps (they are of double type)
-                  resultCount = sum.doubleValue(for: HKUnit.count())
-              } // end if
+        let query = HKStatisticsQuery(
+            quantityType: type,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) { _, statistics, error in
+            if let error = error {
+                print("Today steps query error: \(error)")
+            }
+            completion(statistics?.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0)
+        }
 
-              // Return
-              DispatchQueue.main.async {
-                  completion(resultCount)
-              }
-          }
-      }
-      
-      query.statisticsUpdateHandler = {
-          query, statistics, statisticsCollection, error in
-
-          // If new statistics are available
-          if let sum = statistics?.sumQuantity() {
-              let resultCount = sum.doubleValue(for: HKUnit.count())
-              // Return
-              DispatchQueue.main.async {
-                  completion(resultCount)
-              }
-          } // end if
-      }
-      healthStore.execute(query)
-}
+        healthStore.execute(query)
+    }
     
    
     //MARK: - Get Height Data
     /***************************************************************/
     func getUserHeight(completion: @escaping () -> Void) {
-        // Fetch user's default height unit in inches.
-        let lengthFormatter = LengthFormatter()
-        lengthFormatter.unitStyle = Formatter.UnitStyle.long
-        
-        let heightFormatterUnit = LengthFormatter.Unit.inch
-        let heightUnitString = lengthFormatter.unitString(fromValue: 10, unit: heightFormatterUnit)
-        let localizedHeightUnitDescriptionFormat = NSLocalizedString("Height (%@)", comment: "")
-        
-        self.height = String(format: localizedHeightUnitDescriptionFormat, heightUnitString)
-        
-        let heightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!
-        
-        // Query to get the user's latest height, if it exists.
-        self.healthStore.aapl_mostRecentQuantitySampleOfType(heightType, predicate: nil) {mostRecentQuantity, error in
-            if mostRecentQuantity == nil {
-                NSLog("Either an error occured fetching the user's height information or none has been stored yet. In your app, try to handle this gracefully.")
-                
-                DispatchQueue.main.async {}
-            } else {
-                // Determine the height in the required unit.
-                let heightUnit = HKUnit.inch()
-                let usersHeight = mostRecentQuantity!.doubleValue(for: heightUnit)
-                
-                // Update the user interface.
+        guard let heightType = HKQuantityType.quantityType(forIdentifier: .height) else {
+            completion()
+            return
+        }
+
+        healthStore.aapl_mostRecentQuantitySampleOfType(heightType, predicate: nil) {
+            mostRecentQuantity, error in
+
+            if let error = error {
+                print("Height query error: \(error)")
+            }
+
+            guard let quantity = mostRecentQuantity else {
                 DispatchQueue.main.async {
-                    let h : Double = Double(Int(NumberFormatter.localizedString(from: usersHeight as NSNumber, number: NumberFormatter.Style.none))!)
-                    self.height = String(round(Double(h * 2.54))/100.00)
                     completion()
                 }
+                return
+            }
+
+            let meters = quantity.doubleValue(for: HKUnit.meter())
+            DispatchQueue.main.async {
+                self.height = String(format: "%.2f", meters)
+                completion()
             }
         }
     }
-    
-    //MARK: - Get Weight Data
-    /***************************************************************/
+
     func getUserWeight(completion: @escaping () -> Void) {
-        // Fetch the user's default weight unit in pounds.
-        let massFormatter = MassFormatter()
-        massFormatter.unitStyle = .long
-        
-        let weightFormatterUnit = MassFormatter.Unit.pound
-        let weightUnitString = massFormatter.unitString(fromValue: 10, unit: weightFormatterUnit)
-        let localizedWeightUnitDescriptionFormat = NSLocalizedString("Weight (%@)", comment: "")
-        
-        self.weight = String(format:localizedWeightUnitDescriptionFormat, weightUnitString)
-        
-        // Query to get the user's latest weight, if it exists.
-        let weightType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!
-        
-        self.healthStore.aapl_mostRecentQuantitySampleOfType(weightType, predicate: nil) {mostRecentQuantity, error in
-            if mostRecentQuantity == nil {
-                NSLog("Either an error occured fetching the user's weight information or none has been stored yet. In your app, try to handle this gracefully.")
-                
-                DispatchQueue.main.async {}
-            } else {
-                // Determine the weight in the required unit.
-                let weightUnit = HKUnit.pound()
-                let usersWeight = mostRecentQuantity!.doubleValue(for: weightUnit)
-                
-                // Update the user interface.
+        guard let weightType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else {
+            completion()
+            return
+        }
+
+        healthStore.aapl_mostRecentQuantitySampleOfType(weightType, predicate: nil) {
+            mostRecentQuantity, error in
+
+            if let error = error {
+                print("Weight query error: \(error)")
+            }
+
+            guard let quantity = mostRecentQuantity else {
                 DispatchQueue.main.async {
-                    self.weight = NumberFormatter.localizedString(from: usersWeight as NSNumber, number: .none)
                     completion()
                 }
+                return
+            }
+
+            let pounds = quantity.doubleValue(for: HKUnit.pound())
+            DispatchQueue.main.async {
+                self.weight = String(format: "%.1f", pounds)
+                completion()
             }
         }
     }
@@ -630,11 +614,13 @@ class HealthDataController: UIViewController {
         
         if _sender.source is ChangeGoalController{
             if let senderVC = _sender.source as? ChangeGoalController{
-                if senderVC.enterGoal.text! != ""{
-                    UserDefaults.standard.set(senderVC.enterGoal.text!, forKey: "UserGoal")
-                    defaultGoal = Int(senderVC.enterGoal.text!)!
+                if let goalText = senderVC.enterGoal.text,
+                   let goal = Int(goalText),
+                   goal > 0 {
+                    UserDefaults.standard.set(goalText, forKey: "UserGoal")
+                    defaultGoal = goal
                     currentToGoal = defaultGoal - currentDistance
-                    GoalLabel.text = "Your Daily Goal\n\(String(senderVC.enterGoal.text!)) m"
+                    GoalLabel.text = "Your Daily Goal\n\(goal) m"
                      if(currentToGoal > 0){
                         CurrentToGoalLabel.text = "Keep going! You need \(String(currentToGoal)) m to reach your goal"
                     }
@@ -661,7 +647,7 @@ class HealthDataController: UIViewController {
               
               if _sender.source is ChangeGoalController{
                    if let senderVC = _sender.source as? ChangeGoalController{
-                       UserDefaults.standard.set(dailyDistance, forKey: "UserGoal")
+                       UserDefaults.standard.set(String(dailyDistance), forKey: "UserGoal")
                        defaultGoal = dailyDistance
                        currentToGoal = defaultGoal - currentDistance
                        GoalLabel.text = "Your Daily Goal\n\(String(defaultGoal)) m"
@@ -692,12 +678,9 @@ extension HKHealthStore {
                 return
             }
             
-            if completion != nil {
-                // If quantity isn't in the database, return nil in the completion block.
-                let quantitySample = results!.first as? HKQuantitySample
-                let quantity = quantitySample?.quantity
-                
-                completion!(quantity, error)
+            if let completion = completion {
+                let quantitySample = results?.first as? HKQuantitySample
+                completion(quantitySample?.quantity, error)
             }
         }
         
